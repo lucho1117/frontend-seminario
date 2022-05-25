@@ -45,6 +45,9 @@ import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
 
+import Categoria from './ventas/categoria/Categoria';
+import Producto from './ventas/producto/Producto';
+
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light')
@@ -163,6 +166,131 @@ const App = () => {
             }]
         },
         {
+            label: 'MODULOS', icon: 'pi pi-fw pi-search',
+            items: [
+                {
+                    label: 'VENTAS', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {
+                            label: 'VENTAS.1', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'VENTAS.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'VENTAS.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'VENTAS.1.3', icon: 'pi pi-fw pi-bookmark' },
+                            ]
+                        },
+                        {
+                            label: 'VENTAS.2', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'VENTAS.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'VENTAS.2.2', icon: 'pi pi-fw pi-bookmark' }
+                            ]
+                        },
+                    ]
+                },
+                {
+                    label: 'CONSTRUCCION', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {
+                            label: 'CONSTRUCCION.1', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'CONSTRUCCION.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'CONSTRUCCION.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'CONSTRUCCION.1.3', icon: 'pi pi-fw pi-bookmark' },
+                            ]
+                        },
+                        {
+                            label: 'CONSTRUCCION.2', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'CONSTRUCCION.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'CONSTRUCCION.2.2', icon: 'pi pi-fw pi-bookmark' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    label: 'PLANTA EXTRACCION', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {
+                            label: 'PLANTA EXTRACCION.1', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'PLANTA EXTRACCION.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'PLANTA EXTRACCION.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'PLANTA EXTRACCION.1.3', icon: 'pi pi-fw pi-bookmark' },
+                            ]
+                        },
+                        {
+                            label: 'PLANTA EXTRACCION.2', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'PLANTA EXTRACCION.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'PLANTA EXTRACCION.2.2', icon: 'pi pi-fw pi-bookmark' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    label: 'PLANTA PROCESO', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {
+                            label: 'PLANTA PROCESO.1', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'PLANTA PROCESO.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'PLANTA PROCESO.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'PLANTA PROCESO.1.3', icon: 'pi pi-fw pi-bookmark' },
+                            ]
+                        },
+                        {
+                            label: 'PLANTA PROCESO.2', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'PLANTA PROCESO.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'PLANTA PROCESO.2.2', icon: 'pi pi-fw pi-bookmark' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    label: 'SERVICIOS', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {
+                            label: 'SERVICIOS.1', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'SERVICIOS.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'SERVICIOS.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'SERVICIOS.1.3', icon: 'pi pi-fw pi-bookmark' },
+                            ]
+                        },
+                        {
+                            label: 'SERVICIOS.2', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'SERVICIOS.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'SERVICIOS.2.2', icon: 'pi pi-fw pi-bookmark' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    label: 'TRANSPORTE', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {
+                            label: 'TRANSPORTE.1', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'TRANSPORTE.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'TRANSPORTE.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'TRANSPORTE.1.3', icon: 'pi pi-fw pi-bookmark' },
+                            ]
+                        },
+                        {
+                            label: 'TRANSPORTE.2', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'TRANSPORTE.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'TRANSPORTE.2.2', icon: 'pi pi-fw pi-bookmark' }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             label: 'UI Components', icon: 'pi pi-fw pi-sitemap',
             items: [
                 { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
@@ -202,51 +330,6 @@ const App = () => {
                 { label: 'Crud', icon: 'pi pi-fw pi-user-edit', to: '/crud' },
                 { label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline' },
                 { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
-            ]
-        },
-        {
-            label: 'Menu Hierarchy', icon: 'pi pi-fw pi-search',
-            items: [
-                {
-                    label: 'Submenu 1', icon: 'pi pi-fw pi-bookmark',
-                    items: [
-                        {
-                            label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
-                            ]
-                        },
-                        {
-                            label: 'Submenu 1.2', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        },
-                    ]
-                },
-                {
-                    label: 'Submenu 2', icon: 'pi pi-fw pi-bookmark',
-                    items: [
-                        {
-                            label: 'Submenu 2.1', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 2.1.3', icon: 'pi pi-fw pi-bookmark' },
-                            ]
-                        },
-                        {
-                            label: 'Submenu 2.2', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 2.2.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        }
-                    ]
-                }
             ]
         },
         {
@@ -296,7 +379,9 @@ const App = () => {
 
             <div className="layout-main-container">
                 <div className="layout-main">
-                    <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+                    <Route path="/"  exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+                    <Route path="/categoria" component={Categoria} />
+                    <Route path="/producto" component={Producto} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
