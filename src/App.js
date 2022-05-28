@@ -50,6 +50,10 @@ import Producto from './ventas/producto/Producto';
 import Cliente from './user/clientes/Cliente';
 import TipoAlquiler from './ventas/tipoAlquiler/TipoAlquiler';
 
+import TipoVehiculo from './transportes/tipoVehiculo/TipoVehiculo';
+import Cargamento from './transportes/cargamento/Cargamento';
+import Vehiculo from './transportes/vehiculo/Vehiculo';
+
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light')
@@ -189,6 +193,14 @@ const App = () => {
                     ]
                 },
                 {
+                    label: 'TRASNPORTE', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/tipoVehiculo'},
+                        {label: 'Cargamento', icon: 'pi pi-fw pi-bookmark', to: '/cargamento'},
+                        {label: 'Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/vehiculo'}
+                    ]
+                },
+                {
                     label: 'PLANTAS EXTRACCION', icon: 'pi pi-fw pi-bookmark',
                     items: [
                         {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
@@ -204,13 +216,6 @@ const App = () => {
                 },
                 {
                     label: 'SERVICIOS', icon: 'pi pi-fw pi-bookmark',
-                    items: [
-                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
-                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
-                    ]
-                },
-                {
-                    label: 'TRANSPORTE', icon: 'pi pi-fw pi-bookmark',
                     items: [
                         {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
                         {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
@@ -340,6 +345,9 @@ const App = () => {
                     <Route path="/producto" component={Producto} />
                     <Route path="/tipoAlquiler" component={TipoAlquiler} />
 
+                    <Route path="/tipoVehiculo" component={TipoVehiculo}/>
+                    <Route path="/cargamento" component={Cargamento}/>
+                    <Route path="/vehiculo" component={Vehiculo}/>
 
 
 

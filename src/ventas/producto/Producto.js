@@ -12,6 +12,7 @@ import { MenuItem, Select, TextField } from '@mui/material';
 import * as Service from "./Service";
 import * as ServiceCategoria from "../categoria/Service";
 import * as ServiceProveedor from "../../user/proveedores/Service"
+import { Checkbox } from 'primereact/checkbox';
 
 const Producto = () => {
 
@@ -23,7 +24,7 @@ const Producto = () => {
         precio: "",
         stock: "",
         fechaIngreso:"",
-        venta:"",
+        venta:false,
     };
 
     const [productos, setProductos] = useState(null);
@@ -36,16 +37,7 @@ const Producto = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-    const [tipoVenta] = useState([
-        {
-            id: true,
-            nombre: "VENTA"
-        },
-        {
-            id: false,
-            nombre: "ALQUILER"
-        }
-    ]);
+
   
     useEffect(() => {
         list();
@@ -156,10 +148,19 @@ const Producto = () => {
 
     const onInputChange = (e) => {
         const { value, name } = e.target;
-        setProducto({
-            ...producto,
-            [name]: value,
-        });
+
+        if ( name ==='venta') {
+            setProducto({
+                ...producto,
+                [name]: !value,
+            });
+        } else {
+            setProducto({
+                ...producto,
+                [name]: value,
+            });
+        }
+       
         setSubmitted(true);
     }
 
@@ -232,7 +233,7 @@ const Producto = () => {
         return (
             <>
                 <span className="p-column-title">Proposito</span>
-                {rowData.venta ? "VENTA": "ALQUILER"}
+                {rowData.venta === 1 ? "VENTA": "ALQUILER"}
             </>
         );
     }
@@ -406,29 +407,22 @@ const Producto = () => {
                                 />
                             </div>
                             <div className="field col">
-                                <label htmlFor="quantity">Venta/Alquiler</label>
-                                <Select 
-                                    value={producto.venta} 
-                                    className="w-full"
-                                    id="venta" 
+                                <label htmlFor="quantity">Venta</label>
+                                <Checkbox 
+                                    inputId="venta" 
                                     name="venta" 
-                                    onChange={onInputChange}
-                                >
-                                    {tipoVenta.map((item, index) => (
-                                        <MenuItem value={item.id} key={index}>
-                                            {item.nombre}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
+                                    value={producto.venta === 1 ? true : producto.venta === 0 ? false : producto.venta}
+                                    className="w-full"
+                                    checked={producto.venta === 1 ? true : producto.venta === 0 ? false : producto.venta} 
+                                    onChange={onInputChange} 
+                                />
                             </div>
                         </div>
-
                     </Dialog>
 
                     <Dialog visible={deleteProductoDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteProductoDialogFooter} onHide={hideDeleteProductoDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {producto && <span>Desea eliminar este item: <b>{producto.nombre}</b>?</span>}
                         </div>
                     </Dialog>
 

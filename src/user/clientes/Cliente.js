@@ -33,11 +33,12 @@ const Cliente = (props) => {
     const dt = useRef(null);
   
     useEffect(() => {
-        list();
+      list();
     }, []);
+    
 
     const list = async()  => {
-        let aux = {idNegocio: props.idNegocio}
+        let aux = {idNegocio: props.idNegocio};
         let resp = await Service.listByNegocio(aux);
         if (resp.valid) {
             setClientes(resp.data);
