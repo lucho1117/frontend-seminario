@@ -47,6 +47,8 @@ import './App.scss';
 
 import Categoria from './ventas/categoria/Categoria';
 import Producto from './ventas/producto/Producto';
+import Cliente from './user/clientes/Cliente';
+import TipoAlquiler from './ventas/tipoAlquiler/TipoAlquiler';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -64,6 +66,7 @@ const App = () => {
 
     let menuClick = false;
     let mobileTopbarMenuClick = false;
+
 
     useEffect(() => {
         if (mobileMenuActive) {
@@ -171,123 +174,48 @@ const App = () => {
                 {
                     label: 'VENTAS', icon: 'pi pi-fw pi-bookmark',
                     items: [
-                        {
-                            label: 'VENTAS.1', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'VENTAS.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'VENTAS.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'VENTAS.1.3', icon: 'pi pi-fw pi-bookmark' },
-                            ]
-                        },
-                        {
-                            label: 'VENTAS.2', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'VENTAS.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'VENTAS.2.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        },
+                        {label: 'Categorias', icon: 'pi pi-fw pi-bookmark' , to: '/categoria' },
+                        {label: 'Productos', icon: 'pi pi-fw pi-bookmark', to: '/producto'},
+                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/ventas'},
+                        {label: 'Tipo Alquiler', icon: 'pi pi-fw pi-bookmark', to: '/tipoAlquiler'}
                     ]
                 },
                 {
                     label: 'CONSTRUCCION', icon: 'pi pi-fw pi-bookmark',
                     items: [
-                        {
-                            label: 'CONSTRUCCION.1', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'CONSTRUCCION.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'CONSTRUCCION.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'CONSTRUCCION.1.3', icon: 'pi pi-fw pi-bookmark' },
-                            ]
-                        },
-                        {
-                            label: 'CONSTRUCCION.2', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'CONSTRUCCION.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'CONSTRUCCION.2.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        }
+                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
+                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'},
+                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/construccion'}
                     ]
                 },
                 {
-                    label: 'PLANTA EXTRACCION', icon: 'pi pi-fw pi-bookmark',
+                    label: 'PLANTAS EXTRACCION', icon: 'pi pi-fw pi-bookmark',
                     items: [
-                        {
-                            label: 'PLANTA EXTRACCION.1', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'PLANTA EXTRACCION.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'PLANTA EXTRACCION.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'PLANTA EXTRACCION.1.3', icon: 'pi pi-fw pi-bookmark' },
-                            ]
-                        },
-                        {
-                            label: 'PLANTA EXTRACCION.2', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'PLANTA EXTRACCION.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'PLANTA EXTRACCION.2.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        }
+                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
+                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
                     ]
                 },
                 {
-                    label: 'PLANTA PROCESO', icon: 'pi pi-fw pi-bookmark',
+                    label: 'PLANTAS PROCESO', icon: 'pi pi-fw pi-bookmark',
                     items: [
-                        {
-                            label: 'PLANTA PROCESO.1', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'PLANTA PROCESO.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'PLANTA PROCESO.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'PLANTA PROCESO.1.3', icon: 'pi pi-fw pi-bookmark' },
-                            ]
-                        },
-                        {
-                            label: 'PLANTA PROCESO.2', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'PLANTA PROCESO.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'PLANTA PROCESO.2.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        }
+                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
+                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
                     ]
                 },
                 {
                     label: 'SERVICIOS', icon: 'pi pi-fw pi-bookmark',
                     items: [
-                        {
-                            label: 'SERVICIOS.1', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'SERVICIOS.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'SERVICIOS.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'SERVICIOS.1.3', icon: 'pi pi-fw pi-bookmark' },
-                            ]
-                        },
-                        {
-                            label: 'SERVICIOS.2', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'SERVICIOS.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'SERVICIOS.2.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        }
+                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
+                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
                     ]
                 },
                 {
                     label: 'TRANSPORTE', icon: 'pi pi-fw pi-bookmark',
                     items: [
-                        {
-                            label: 'TRANSPORTE.1', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'TRANSPORTE.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'TRANSPORTE.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'TRANSPORTE.1.3', icon: 'pi pi-fw pi-bookmark' },
-                            ]
-                        },
-                        {
-                            label: 'TRANSPORTE.2', icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'TRANSPORTE.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'TRANSPORTE.2.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        }
+                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
+                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
                     ]
-                }
+                },
             ]
         },
         {
@@ -330,6 +258,32 @@ const App = () => {
                 { label: 'Crud', icon: 'pi pi-fw pi-user-edit', to: '/crud' },
                 { label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline' },
                 { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
+            ]
+        },
+        {
+            label: 'MENU DESPLEGABLE', icon: 'pi pi-fw pi-search',
+            items: [
+                {
+                    label: 'VENTAS', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {
+                            label: 'VENTAS.1', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'VENTAS.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'VENTAS.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'VENTAS.1.3', icon: 'pi pi-fw pi-bookmark' },
+                            ]
+                        },
+                        {
+                            label: 'VENTAS.2', icon: 'pi pi-fw pi-bookmark',
+                            items: [
+                                { label: 'VENTAS.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'VENTAS.2.2', icon: 'pi pi-fw pi-bookmark' }
+                            ]
+                        },
+                    ]
+                }
+                
             ]
         },
         {
@@ -380,8 +334,16 @@ const App = () => {
             <div className="layout-main-container">
                 <div className="layout-main">
                     <Route path="/"  exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+                    <Route path="/cliente/ventas"  render={() => <Cliente idNegocio={3} />}/>
+                    <Route path="/cliente/construccion"  render={() => <Cliente idNegocio={6} />}/>
                     <Route path="/categoria" component={Categoria} />
                     <Route path="/producto" component={Producto} />
+                    <Route path="/tipoAlquiler" component={TipoAlquiler} />
+
+
+
+
+
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
