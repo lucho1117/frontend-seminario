@@ -53,6 +53,9 @@ import TipoAlquiler from './ventas/tipoAlquiler/TipoAlquiler';
 import TipoVehiculo from './transportes/tipoVehiculo/TipoVehiculo';
 import Cargamento from './transportes/cargamento/Cargamento';
 import Vehiculo from './transportes/vehiculo/Vehiculo';
+import Viaje from './transportes/viaje/Viaje';
+import PrincipalVentas from './ventas/PrincipalVentas';
+
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -178,6 +181,7 @@ const App = () => {
                 {
                     label: 'VENTAS', icon: 'pi pi-fw pi-bookmark',
                     items: [
+                        {label: 'Principal', icon: 'pi pi-fw pi-bookmark', to: '/principalVenta'},
                         {label: 'Categorias', icon: 'pi pi-fw pi-bookmark' , to: '/categoria' },
                         {label: 'Productos', icon: 'pi pi-fw pi-bookmark', to: '/producto'},
                         {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/ventas'},
@@ -187,35 +191,20 @@ const App = () => {
                 {
                     label: 'CONSTRUCCION', icon: 'pi pi-fw pi-bookmark',
                     items: [
-                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
-                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'},
                         {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/construccion'}
                     ]
                 },
                 {
                     label: 'TRASNPORTE', icon: 'pi pi-fw pi-bookmark',
                     items: [
+                        {label: 'Viajes', icon: 'pi pi-fw pi-bookmark', to: '/viaje'},
                         {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/tipoVehiculo'},
                         {label: 'Cargamento', icon: 'pi pi-fw pi-bookmark', to: '/cargamento'},
                         {label: 'Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/vehiculo'}
                     ]
                 },
                 {
-                    label: 'PLANTAS EXTRACCION', icon: 'pi pi-fw pi-bookmark',
-                    items: [
-                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
-                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
-                    ]
-                },
-                {
-                    label: 'PLANTAS PROCESO', icon: 'pi pi-fw pi-bookmark',
-                    items: [
-                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
-                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
-                    ]
-                },
-                {
-                    label: 'SERVICIOS', icon: 'pi pi-fw pi-bookmark',
+                    label: 'PLANTAS', icon: 'pi pi-fw pi-bookmark',
                     items: [
                         {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
                         {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
@@ -339,15 +328,20 @@ const App = () => {
             <div className="layout-main-container">
                 <div className="layout-main">
                     <Route path="/"  exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+
+
+
                     <Route path="/cliente/ventas"  render={() => <Cliente idNegocio={3} />}/>
                     <Route path="/cliente/construccion"  render={() => <Cliente idNegocio={6} />}/>
                     <Route path="/categoria" component={Categoria} />
                     <Route path="/producto" component={Producto} />
                     <Route path="/tipoAlquiler" component={TipoAlquiler} />
+                    <Route path="/principalVenta" component={PrincipalVentas} />
 
                     <Route path="/tipoVehiculo" component={TipoVehiculo}/>
                     <Route path="/cargamento" component={Cargamento}/>
                     <Route path="/vehiculo" component={Vehiculo}/>
+                    <Route path="/viaje" component={Viaje}/>
 
 
 
