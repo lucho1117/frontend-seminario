@@ -1,24 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { MenuItem, Select, TextField } from '@mui/material';
+import { Toast } from 'primereact/toast';
+import * as Service from "./Service";
 
-
-import { CustomerService } from '../../service/CustomerService';
 
 const Factura = (props) => {
-
-    const [customers2, setCustomers2] = useState([]);
-    const customerService = new CustomerService();
 
     const [submitted, setSubmitted] = useState(false);
     const [submittedDetalle, setSubmittedDetalle] = useState(false);
     const [producto, setProducto] = useState("");
+    const toast = useRef(null);
 
     useEffect(() => {
-        customerService.getCustomersLarge().then(data => { setCustomers2(getCustomers(data));});
+        
     }, []);
     
     useEffect(() => {
@@ -27,23 +25,31 @@ const Factura = (props) => {
             precio: producto.precio,
             producto: producto.nombre
         });
-    }, [producto])
-    
-    const getCustomers = (data) => {
-        return [...data || []].map(d => {
-            d.date = new Date(d.date);
-            return d;
-        });
+    }, [producto]);
+
+    const addFactura = () => {
+        console.log("estamos aqui");
+        if ( props.formFactura.idCliente && props.formFactura.idTipoPago && props.formFactura.idEmpleado && props.formFactura.fecha && props.formFactura.direccion) {
+            if (props.formFactura.detalle.length > 0) {
+                if (props.formFactura.idFactura) {
+                    console.log("editamos");
+                } else {
+                    saveFactura();
+                }
+            } else {
+                toast.current.show({ severity: 'info', summary: 'Info', detail: "Debe de incluir al menos un producto para la venta.", life: 3000 });
+            }
+        }
     }
 
-    const representativeBodyTemplate = (rowData) => {
-        const representative = rowData.representative;
-        return (
-            <React.Fragment>
-                <img alt={representative.name} src={`images/avatar/${representative.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} width={32} style={{ verticalAlign: 'middle' }} />
-                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }} className="image-text">{representative.name}</span>
-            </React.Fragment>
-        );
+    const saveFactura = async () => {
+        let resp = await Service.save(props.formFactura);
+        if ( resp.valid ){
+            back();
+            toast.current.show({ severity: 'success', summary: 'Exitoso!', detail: 'Agregado Correctamente', life: 3000 });
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error!', detail: resp.msg, life: 3000 });
+        }
     }
 
     const onInputChange = (e) => {
@@ -74,9 +80,90 @@ const Factura = (props) => {
         setSubmittedDetalle(true);
     }
 
+    const idBody = (rowData, rowIndex) => {
+        return (<>{rowIndex.rowIndex + 1}</>)
+    }
+
+    const actionBodyTemplate = (rowData, rowIndex) => {
+        return (
+            <div className="actions">
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={()=> {deleteDetalle(rowData, rowIndex.rowIndex)}} />
+            </div>
+        );
+    }
+
+    const addDetalle = () => {
+        if ( props.formDetalle.idProducto && props.formDetalle.cantidad ) {
+
+            let aux = props.formFactura.detalle;
+            const mismoProducto = aux.filter( item =>{ if (item.idProducto === props.formDetalle.idProducto) return item });
+            
+            if (mismoProducto.length > 0 ) {
+                toast.current.show({ severity: 'info', summary: 'Info', detail: "No se puede agregar un mismo producto más de una vez.", life: 3000 });
+            } else {
+                if ( props.formFactura.idFactura){
+                    console.log("editando");
+                } else {
+                    aux.push(props.formDetalle);
+                    props.setFormFactura({
+                        ...props.formFactura,
+                        detalle: aux
+                    });
+    
+                    props.setFormDetalle(props.detalle);
+                    setSubmittedDetalle(false);
+                }
+                conteoTotal();
+            }
+        }
+    }
+
+    const deleteDetalle = (detalle, index) => {
+        if (props.formFactura.idFactura) {
+            console.log("editando");
+        } else {
+            let aux = props.formFactura.detalle;
+            aux.splice(index, 1);
+            props.setFormFactura({
+                ...props.formFactura,
+                detalle: aux
+            });
+        }
+        conteoTotal();
+    }
+
+    const conteoTotal = () => {
+        let aux = props.formFactura.detalle;  
+        let acumulado = 0;
+        aux.map(item => {
+            acumulado = acumulado + item.total;
+        });     
+        props.setFormFactura({
+            ...props.formFactura,
+            total: acumulado
+        }); 
+    }
+
+    const clearDetalle = () => {
+        props.setFormDetalle(props.detalle);
+        setSubmittedDetalle(false);
+    }
+
+    const clearEncabezado = () => {
+        props.setFormFactura(props.factura);
+        setSubmitted(false);
+    }
+
+    const back = () => {
+        clearDetalle();
+        clearEncabezado();
+        props.setFlagFactura(false);
+    }
+
 
     return (
             <>
+            <Toast ref={toast} />
             <div className="col-12">
                 <div className="card">
                     <div className="grid p-fluid">
@@ -84,7 +171,7 @@ const Factura = (props) => {
                             <h3>Factura</h3>
                         </div>
                         <div className="col-12 md:col-1">
-                            <Button label="Volver" icon="pi pi-arrow-left" className="p-button-text" onClick={()=>{props.setFlagFactura(false)}} />
+                            <Button label="Volver" icon="pi pi-arrow-left" className="p-button-text" onClick={back} />
                         </div>
                         <div className="col-12 md:col-4">
                             <label htmlFor="descripcion">Cliente*</label>
@@ -195,12 +282,13 @@ const Factura = (props) => {
             <div className="col-8">
                 <div className="card" >
                     <h5>Detalle</h5>
-                    <DataTable value={customers2} scrollable scrollHeight="350px"  scrollDirection="both" className="mt-3">
-                        <Column field="name" header="Name" style={{ flexGrow: 1, flexBasis: '160px' }} frozen></Column>
-                        <Column field="name" header="Name" style={{ flexGrow: 1, flexBasis: '200px' }}></Column>
-                        <Column field="company" header="Company" style={{ flexGrow: 1, flexBasis: '200px' }}></Column>
-                        <Column field="activity" header="Activity" style={{ flexGrow: 1, flexBasis: '200px' }}></Column>
-                        <Column field="representative.name" header="Representative" style={{ flexGrow: 1, flexBasis: '200px' }} body={representativeBodyTemplate}></Column>
+                    <DataTable value={props.formFactura.detalle} scrollable scrollHeight="350px"  scrollDirection="both" className="mt-3">
+                        <Column header="No." style={{ flexGrow: 1, flexBasis: '10px' }} body={idBody} frozen></Column>
+                        <Column field="producto" header="Producto" style={{ flexGrow: 1, flexBasis: '100px' }}></Column>
+                        <Column field="precio" header="Precio" style={{ flexGrow: 1, flexBasis: '100px' }}></Column>
+                        <Column field="cantidad" header="Cantidad" style={{ flexGrow: 1, flexBasis: '100px' }}></Column>
+                        <Column field="total" header="Total" style={{ flexGrow: 1, flexBasis: '100px' }}></Column>
+                        <Column body={actionBodyTemplate} header="Acción" style={{ flexGrow: 1, flexBasis: '2px' }}></Column>
                     </DataTable>
                 </div>
             </div>
@@ -273,10 +361,10 @@ const Factura = (props) => {
                         </div>
 
                         <div className="col-12 md:col-6">
-                            <Button label="Agregar" className="p-button-outlined mr-2 mb-2" />
+                            <Button label="Agregar" className="p-button-outlined mr-2 mb-2" onClick={addDetalle}/>
                         </div>
                         <div className="col-12 md:col-6">
-                            <Button label="Cancelar" className="p-button-outlined p-button-danger mr-2 mb-2" />
+                            <Button label="Cancelar" className="p-button-outlined p-button-danger mr-2 mb-2" onClick={clearDetalle} />
                         </div>
                     </div>
 
@@ -302,7 +390,7 @@ const Factura = (props) => {
                         </div>
                         <div className="col-12 md:col-6">
                             <div className="p-inputgroup">
-                                <Button  label="REALIZAR VENTA" className="p-button-success mr-16 mb-16" />
+                                <Button  label="REALIZAR VENTA" className="p-button-success mr-16 mb-16" onClick={addFactura}/>
                             </div>
                         </div>
                     </div>

@@ -4,22 +4,22 @@ import axios from 'axios';
 const URL = process.env.REACT_APP_BACKEND;
 
 export async function list(obj) {
-    let respuesta = await axios.post(URL + `/venta/list`, obj);
+    let respuesta = await axios.post(URL + `/factura/list`, obj);
 	return respuesta.data;
 }
 
 export async function save(obj) {
-    let respuesta = await axios.post(URL + `/venta/save`, obj);
+    let respuesta = await axios.post(URL + `/factura/save`, obj);
 	return respuesta.data;
 }
 
 export async function update(obj) {
-    let respuesta = await axios.post(URL + `/venta/update`, obj);
+    let respuesta = await axios.post(URL + `/factura/update`, obj);
 	return respuesta.data;
 }
 
 export async function deleteById(obj) {
-    let respuesta = await axios.post(URL + `/venta/delete`, obj);
+    let respuesta = await axios.post(URL + `/factura/delete`, obj);
 	return respuesta.data;
 }
 

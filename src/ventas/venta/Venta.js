@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from '../../service/ProductService';
 import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
 import { Toast } from 'primereact/toast';
@@ -34,6 +33,7 @@ const Venta = (props) => {
     }
     
     const [flagFactura, setFlagFactura] = useState(false);
+    const [facturas, setFacturas] = useState([]);
     const [clientes, setClientes] = useState([]);
     const [empleados, setEmpleados] = useState([]);
     const [tipoPago, setTipoPago] = useState([]);
@@ -41,21 +41,31 @@ const Venta = (props) => {
     const [formFactura, setFormFactura] = useState(factura);
     const [formDetalle, setFormDetalle] = useState(detalle);
     
-    const [products, setProducts] = useState([]);
+
     const [expandedRows, setExpandedRows] = useState(null);
-    const productService = new ProductService();
+
     const [globalFilter, setGlobalFilter] = useState(null);
 
 
     const toast = useRef(null);
 
     useEffect(() => {
+        listFacturas();
         listClientes();
         listEmpleados();
         listTipoPago();
         listProductos();
-        productService.getProductsWithOrdersSmall().then(data => setProducts(data));
     }, []); 
+    
+
+    const listFacturas = async()  => {
+        let resp = await Service.list();
+        if (resp.valid) {
+            setFacturas(resp.data);
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+    }
 
     const listClientes = async()  => {
         let aux = {idNegocio: 3};
@@ -98,14 +108,17 @@ const Venta = (props) => {
 
 
     const rowExpansionTemplate = (data) => {
+        console.log(data);
         return (
             <div className="orders-subtable">
-                <h5>Orders for {data.name}</h5>
-                <DataTable value={data.orders} responsiveLayout="scroll">
-                    <Column field="id" header="Id" sortable></Column>
-                    <Column field="customer" header="Customer" sortable></Column>
-                    <Column field="date" header="Date" sortable></Column>
-                    <Column headerStyle={{ width: '4rem' }} body={searchBodyTemplate}></Column>
+                <h5>Detalle de Venta</h5>
+                <DataTable value={data.detalle} responsiveLayout="scroll">
+                    <Column field="idDetalleVenta" header="No." sortable></Column>
+                    <Column field="producto" header="Producto" sortable></Column>
+                    <Column field="precio" header="Precio" sortable></Column>
+                    <Column field="cantidad" header="Cantidad" sortable></Column>
+                    <Column field="total" header="Total" sortable></Column>
+                    {/* <Column headerStyle={{ width: '4rem' }} body={searchBodyTemplate}></Column> */}
                 </DataTable>
             </div>
         );
@@ -143,10 +156,13 @@ const Venta = (props) => {
                         <Toast ref={toast} />
                         <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
 
-                        <DataTable value={products} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll"
+                        <DataTable value={facturas} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll"
                             rowExpansionTemplate={rowExpansionTemplate} dataKey="id" globalFilter={globalFilter} header={header} className="datatable-responsive">
                             <Column expander style={{ width: '3em' }} />
-                            <Column field="name" header="Name" sortable />
+                            <Column field="idFactura" header="No" sortable />
+                            <Column field="fecha" header="Fecha" sortable />
+                            <Column field="cliente" header="Cliente" sortable />
+                            <Column field="total" header="Total" sortable />
                         </DataTable>
                     </div>
                 </div>
