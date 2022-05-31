@@ -133,9 +133,9 @@ const Venta = (props) => {
         </div>
     );
 
-    const searchBodyTemplate = () => {
+    /* const searchBodyTemplate = () => {
         return <Button icon="pi pi-search" />;
-    }
+    } */
 
     const rightToolbarTemplate = () => {
         return (
