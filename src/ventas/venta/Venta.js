@@ -3,28 +3,98 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ProductService } from '../../service/ProductService';
 import { Button } from 'primereact/button';
-import { Rating } from 'primereact/rating';
 import { Toolbar } from 'primereact/toolbar';
 import { Toast } from 'primereact/toast';
 import { InputText } from 'primereact/inputtext';
 import Factura from './Factura';
+import * as Service from "./Service";
+import * as ServiceCliente from "../../user/clientes/Service";
+import * as ServiceEmpleado from "../../user/empleado/Service";
+import * as ServiceProducto from "../producto/Service";
+
 
 const Venta = (props) => {
+
+    const factura = {
+        idCliente: "",
+        idTipoPago: "",
+        idEmpleado: "",
+        fecha: "",
+        direccion: "",
+        total: "",
+        detalle: []
+    }
+
+    const detalle = {
+        idProducto: "",
+        producto: "",
+        precio:"",
+        cantidad: "",
+        total: ""
+    }
     
     const [flagFactura, setFlagFactura] = useState(false);
-    
+    const [clientes, setClientes] = useState([]);
+    const [empleados, setEmpleados] = useState([]);
+    const [tipoPago, setTipoPago] = useState([]);
+    const [productos, setProductos] = useState([]);
+    const [formFactura, setFormFactura] = useState(factura);
+    const [formDetalle, setFormDetalle] = useState(detalle);
     
     const [products, setProducts] = useState([]);
     const [expandedRows, setExpandedRows] = useState(null);
     const productService = new ProductService();
     const [globalFilter, setGlobalFilter] = useState(null);
-    
+
 
     const toast = useRef(null);
 
     useEffect(() => {
+        listClientes();
+        listEmpleados();
+        listTipoPago();
+        listProductos();
         productService.getProductsWithOrdersSmall().then(data => setProducts(data));
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, []); 
+
+    const listClientes = async()  => {
+        let aux = {idNegocio: 3};
+        let resp = await ServiceCliente.listByNegocio(aux);
+        if (resp.valid) {
+            setClientes(resp.data);
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+    }
+
+    const listEmpleados = async()  => {
+        let aux = {idRol: 7, idAreaNegocio: 1};
+        let resp = await ServiceEmpleado.listByRolByArea(aux);
+        if (resp.valid) {
+            setEmpleados(resp.data);
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+    }
+
+    const listTipoPago = async()  => {
+        let resp = await Service.listTipoPago();
+        if (resp.valid) {
+            setTipoPago(resp.data);
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+    }
+
+    const listProductos = async()  => {
+        let resp = await ServiceProducto.list();
+        if (resp.valid) {
+            setProductos(resp.data);
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+    }
+    
 
 
     const rowExpansionTemplate = (data) => {
@@ -35,8 +105,6 @@ const Venta = (props) => {
                     <Column field="id" header="Id" sortable></Column>
                     <Column field="customer" header="Customer" sortable></Column>
                     <Column field="date" header="Date" sortable></Column>
-                    <Column field="amount" header="Amount" body={amountBodyTemplate} sortable></Column>
-                    <Column field="status" header="Status" body={statusOrderBodyTemplate} sortable></Column>
                     <Column headerStyle={{ width: '4rem' }} body={searchBodyTemplate}></Column>
                 </DataTable>
             </div>
@@ -52,39 +120,9 @@ const Venta = (props) => {
         </div>
     );
 
-    const amountBodyTemplate = (rowData) => {
-        return formatCurrency(rowData.amount);
-    }
-
-    const statusOrderBodyTemplate = (rowData) => {
-        return <span className={`order-badge order-${rowData.status.toLowerCase()}`}>{rowData.status}</span>;
-    }
-
     const searchBodyTemplate = () => {
         return <Button icon="pi pi-search" />;
     }
-
-    const formatCurrency = (value) => {
-        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    }
-
-
-    const imageBodyTemplate = (rowData) => {
-        return <img src={`images/product/${rowData.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image} className="shadow-2" width={100} />;
-    }
-
-    const priceBodyTemplate = (rowData) => {
-        return formatCurrency(rowData.price);
-    }
-
-    const ratingBodyTemplate = (rowData) => {
-        return <Rating value={rowData.rating} readOnly cancel={false} />;
-    }
-
-    const statusBodyTemplate2 = (rowData) => {
-        return <span className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
-    }
-
 
     const rightToolbarTemplate = () => {
         return (
@@ -109,11 +147,6 @@ const Venta = (props) => {
                             rowExpansionTemplate={rowExpansionTemplate} dataKey="id" globalFilter={globalFilter} header={header} className="datatable-responsive">
                             <Column expander style={{ width: '3em' }} />
                             <Column field="name" header="Name" sortable />
-                            <Column header="Image" body={imageBodyTemplate} />
-                            <Column field="price" header="Price" sortable body={priceBodyTemplate} />
-                            <Column field="category" header="Category" sortable />
-                            <Column field="rating" header="Reviews" sortable body={ratingBodyTemplate} />
-                            <Column field="inventoryStatus" header="Status" sortable body={statusBodyTemplate2} />
                         </DataTable>
                     </div>
                 </div>
@@ -122,6 +155,16 @@ const Venta = (props) => {
             {flagFactura ? (
                 <Factura 
                     setFlagFactura={setFlagFactura}
+                    clientes={clientes}
+                    empleados={empleados}
+                    tipoPago={tipoPago}
+                    productos={productos}
+                    factura={factura}
+                    detalle={detalle}
+                    formFactura={formFactura}
+                    setFormFactura={setFormFactura}
+                    formDetalle={formDetalle}
+                    setFormDetalle={setFormDetalle}
                 />
             ):null}
         </>
