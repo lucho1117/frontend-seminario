@@ -10,6 +10,10 @@ import * as Service from "./Service";
 import * as ServiceCliente from "../../user/clientes/Service";
 import * as ServiceEmpleado from "../../user/empleado/Service";
 import * as ServiceProducto from "../producto/Service";
+import ReportFactura from './ReportFactura';
+import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+import { Dialog } from 'primereact/dialog';
+
 
 
 const Venta = (props) => {
@@ -41,13 +45,15 @@ const Venta = (props) => {
     const [formFactura, setFormFactura] = useState(factura);
     const [formDetalle, setFormDetalle] = useState(detalle);
     
-
     const [expandedRows, setExpandedRows] = useState(null);
-
     const [globalFilter, setGlobalFilter] = useState(null);
-
-
     const toast = useRef(null);
+
+    const [facturaDialog, setFacturaDialog] = useState(false);
+    const [reporteFactura, setReporteFactura] = useState("");
+
+    const [deleteFacturaDialog, setDeleteFacturaDialog] = useState(false);
+    const [facturaDelete, setFacturaDelete] = useState("");
 
     useEffect(() => {
         listFacturas();
@@ -108,7 +114,7 @@ const Venta = (props) => {
 
 
     const rowExpansionTemplate = (data) => {
-        console.log(data);
+
         return (
             <div className="orders-subtable">
                 <h5>Detalle de Venta</h5>
@@ -133,9 +139,6 @@ const Venta = (props) => {
         </div>
     );
 
-    /* const searchBodyTemplate = () => {
-        return <Button icon="pi pi-search" />;
-    } */
 
     const rightToolbarTemplate = () => {
         return (
@@ -148,12 +151,64 @@ const Venta = (props) => {
         )
     }
 
+    const actionBody = (rowData) => {
+        return(
+            <div className="actions">
+                <Button 
+                    icon="pi pi-file-pdf" 
+                    className="p-button-rounded p-button-info mr-2" 
+                    onClick={()=>{
+                        setFacturaDialog(true);
+                        setReporteFactura(rowData);
+                    }}     
+                />
+                <Button 
+                    icon="pi pi-trash" 
+                    className="p-button-rounded p-button-danger mt-2" 
+                    onClick={() => confirmDeleteFactura(rowData)} 
+                />
+            </div>
+        )
+    }
+
+    const confirmDeleteFactura = (factura) => {
+        setFacturaDelete(factura);
+        setDeleteFacturaDialog(true);
+    }
+
+    const deletecategoria = async () => {
+        let resp = await Service.deleteById(facturaDelete);
+        if ( resp.valid ) {
+            listFacturas();
+            setDeleteFacturaDialog(false);
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Eliminado correctamente', life: 3000 });
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+
+    }
+
+    const deleteFacturaDialogFooter = (
+        <>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteFacturaDialog} />
+            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deletecategoria} />
+        </>
+    );
+
+    const hideDeleteFacturaDialog = () => {
+        setDeleteFacturaDialog(false);
+    }
+
+    const hideDialog = () => {
+        setFacturaDialog(false);
+    }
     return (
         <>
+            <Toast ref={toast} />
             {!flagFactura ? (
                 <div className="col-12">
                     <div className="card">
-                        <Toast ref={toast} />
+                        
                         <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
 
                         <DataTable value={facturas} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll"
@@ -163,6 +218,7 @@ const Venta = (props) => {
                             <Column field="fecha" header="Fecha" sortable />
                             <Column field="cliente" header="Cliente" sortable />
                             <Column field="total" header="Total" sortable />
+                            <Column field="accion"  body={actionBody} />
                         </DataTable>
                     </div>
                 </div>
@@ -181,8 +237,27 @@ const Venta = (props) => {
                     setFormFactura={setFormFactura}
                     formDetalle={formDetalle}
                     setFormDetalle={setFormDetalle}
+                    toast={toast}
+                    listFacturas={listFacturas}
                 />
             ):null}
+
+            <Dialog visible={deleteFacturaDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteFacturaDialogFooter} onHide={hideDeleteFacturaDialog}>
+                <div className="flex align-items-center justify-content-center">
+                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                    { <span>Desea eliminar la factura No. <b>{facturaDelete.idFactura}</b>?</span>}
+                </div>
+            </Dialog>
+
+            <Dialog visible={facturaDialog} style={{ width: '1500px' }} modal className="p-fluid"  onHide={hideDialog}>
+                <PDFViewer style={{width:"100%", height: "90vh"}}>
+                    <ReportFactura 
+                        factura={reporteFactura}
+                    />
+                </PDFViewer>
+
+            </Dialog>
+
         </>
     )
 }

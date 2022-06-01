@@ -8,6 +8,7 @@ import { Toast } from 'primereact/toast';
 import * as Service from "./Service";
 
 
+
 const Factura = (props) => {
 
     const [submitted, setSubmitted] = useState(false);
@@ -28,11 +29,11 @@ const Factura = (props) => {
     }, [producto]);
 
     const addFactura = () => {
-        console.log("estamos aqui");
+        
         if ( props.formFactura.idCliente && props.formFactura.idTipoPago && props.formFactura.idEmpleado && props.formFactura.fecha && props.formFactura.direccion) {
             if (props.formFactura.detalle.length > 0) {
                 if (props.formFactura.idFactura) {
-                    console.log("editamos");
+                    
                 } else {
                     saveFactura();
                 }
@@ -45,10 +46,11 @@ const Factura = (props) => {
     const saveFactura = async () => {
         let resp = await Service.save(props.formFactura);
         if ( resp.valid ){
+            props.listFacturas();
             back();
-            toast.current.show({ severity: 'success', summary: 'Exitoso!', detail: 'Agregado Correctamente', life: 3000 });
+            props.toast.current.show({ severity: 'success', summary: 'Exitoso!', detail: 'Agregado Correctamente', life: 3000 });
         } else {
-            toast.current.show({ severity: 'error', summary: 'Error!', detail: resp.msg, life: 3000 });
+            props.toast.current.show({ severity: 'error', summary: 'Error!', detail: resp.msg, life: 3000 });
         }
     }
 
@@ -102,7 +104,7 @@ const Factura = (props) => {
                 toast.current.show({ severity: 'info', summary: 'Info', detail: "No se puede agregar un mismo producto más de una vez.", life: 3000 });
             } else {
                 if ( props.formFactura.idFactura){
-                    console.log("editando");
+                    
                 } else {
                     aux.push(props.formDetalle);
                     props.setFormFactura({
@@ -120,7 +122,7 @@ const Factura = (props) => {
 
     const deleteDetalle = (detalle, index) => {
         if (props.formFactura.idFactura) {
-            console.log("editando");
+            
         } else {
             let aux = props.formFactura.detalle;
             aux.splice(index, 1);
@@ -396,17 +398,6 @@ const Factura = (props) => {
                     </div>
                 </div>
 
-            </div>
-
-            <div className="col-8">
-                <div className="grid p-fluid">
-                    <div className="col-6">
-                        <pre>{JSON.stringify(props.formFactura, null, 2)}</pre>
-                    </div>
-                    <div className="col-6">
-                        <pre>{JSON.stringify(props.formDetalle, null, 2)}</pre>
-                    </div>  
-                </div>
             </div>
 
             
