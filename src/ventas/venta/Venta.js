@@ -65,7 +65,8 @@ const Venta = (props) => {
     
 
     const listFacturas = async()  => {
-        let resp = await Service.list();
+        let aux = {alquiler: 0}
+        let resp = await Service.list(aux);
         if (resp.valid) {
             setFacturas(resp.data);
         } else {
@@ -103,7 +104,8 @@ const Venta = (props) => {
     }
 
     const listProductos = async()  => {
-        let resp = await ServiceProducto.list();
+        let aux = {venta: 1}
+        let resp = await ServiceProducto.list(aux);
         if (resp.valid) {
             setProductos(resp.data);
         } else {
@@ -212,7 +214,7 @@ const Venta = (props) => {
                         <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
 
                         <DataTable value={facturas} expandedRows={expandedRows} onRowToggle={(e) => setExpandedRows(e.data)} responsiveLayout="scroll"
-                            rowExpansionTemplate={rowExpansionTemplate} dataKey="id" globalFilter={globalFilter} header={header} className="datatable-responsive">
+                            rowExpansionTemplate={rowExpansionTemplate} dataKey="idFactura" globalFilter={globalFilter} header={header} className="datatable-responsive">
                             <Column expander style={{ width: '3em' }} />
                             <Column field="idFactura" header="No" sortable />
                             <Column field="fecha" header="Fecha" sortable />
