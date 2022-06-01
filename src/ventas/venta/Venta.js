@@ -11,7 +11,7 @@ import * as ServiceCliente from "../../user/clientes/Service";
 import * as ServiceEmpleado from "../../user/empleado/Service";
 import * as ServiceProducto from "../producto/Service";
 import ReportFactura from './ReportFactura';
-import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
 import { Dialog } from 'primereact/dialog';
 
 
@@ -198,7 +198,7 @@ const Venta = (props) => {
     const hideDeleteFacturaDialog = () => {
         setDeleteFacturaDialog(false);
     }
-
+   
     const hideDialog = () => {
         setFacturaDialog(false);
     }
