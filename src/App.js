@@ -49,13 +49,14 @@ import Categoria from './ventas/categoria/Categoria';
 import Producto from './ventas/producto/Producto';
 import Cliente from './user/clientes/Cliente';
 import TipoAlquiler from './ventas/tipoAlquiler/TipoAlquiler';
+import PrincipalVentas from './ventas/PrincipalVentas';
+
 
 import TipoVehiculo from './transportes/tipoVehiculo/TipoVehiculo';
 import Cargamento from './transportes/cargamento/Cargamento';
 import Vehiculo from './transportes/vehiculo/Vehiculo';
 import Viaje from './transportes/viaje/Viaje';
-import PrincipalVentas from './ventas/PrincipalVentas';
-
+import ClienteTransporte from './transportes/clientes/Cliente'; 
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -189,20 +190,22 @@ const App = () => {
                     ]
                 },
                 {
-                    label: 'CONSTRUCCION', icon: 'pi pi-fw pi-bookmark',
-                    items: [
-                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/construccion'}
-                    ]
-                },
-                {
                     label: 'TRASNPORTE', icon: 'pi pi-fw pi-bookmark',
                     items: [
+                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/clienteTransporte'},
                         {label: 'Viajes', icon: 'pi pi-fw pi-bookmark', to: '/viaje'},
                         {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/tipoVehiculo'},
                         {label: 'Cargamento', icon: 'pi pi-fw pi-bookmark', to: '/cargamento'},
                         {label: 'Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/vehiculo'}
                     ]
                 },
+                {
+                    label: 'CONSTRUCCION', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/construccion'}
+                    ]
+                },
+                
                 {
                     label: 'PLANTAS', icon: 'pi pi-fw pi-bookmark',
                     items: [
@@ -342,6 +345,7 @@ const App = () => {
                     <Route path="/cargamento" component={Cargamento}/>
                     <Route path="/vehiculo" component={Vehiculo}/>
                     <Route path="/viaje" component={Viaje}/>
+                    <Route path="/clienteTransporte" component={ClienteTransporte}/>
 
 
 
