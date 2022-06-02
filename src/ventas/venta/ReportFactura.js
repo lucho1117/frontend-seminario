@@ -88,40 +88,7 @@ const ReportFactura = (props) => {
                 
             </Page>
         </Document>
-       {/*  <Document>
-        <Page
-            size="A4"
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "white",
-            }}
-        >
-            <View
-            style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "white",
-                padding: 10,
-            }}
-            >
-            <Text style={{ color: "#3388af", fontSize: "42px" }}>
-                Factura
-            </Text>
-            <Text>lucho</Text>
-          
-           
-
-            <Text style={{ textAlign: "justify", marginTop: "22px" }}>
-            Un perfil de puesto, también llamado Descripción de puesto, es un método de recopilación de los requisitos y calificaciones exigidas para el cumplimiento satisfactorio de las tareas de un empleado dentro de una institución: nivel de estudios, experiencia, funciones del puesto, como se radica el empleado, a nivel de requisitos de instrucción y conocimientos, así como las aptitudes y características de personalidad requeridas. Además, el perfil de puesto se ha convertido en una herramienta sumamente útil en la rama de A.L.V y plantación exitosa de los recursos humanos de las Instituciones de cualquier nivel. Un perfil de un puesto de trabajo es la descripción de un conjunto de tareas y responsabilidades que se asignan a una persona dentro de una organización.
-            </Text>
-            </View>
-        </Page>
-        </Document> */}
+     
         </>
     )
 }
