@@ -1,8 +1,8 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 import moment from 'moment';
-import {Table, TableHeader,TableCell, TableBody, DataTableCell} from "@david.kucsai/react-pdf-table";
-
+/* import {Table, TableHeader,TableCell, TableBody, DataTableCell} from "@david.kucsai/react-pdf-table";
+ */
 // Create styles
 const styles = StyleSheet.create({
     section: {
@@ -43,7 +43,7 @@ const ReportFactura = (props) => {
                     <Text style={styles.body}>Empleado: {props.factura.empleado}</Text>
                 </View>
 
-                <View style={styles.section}>
+                {/* <View style={styles.section}>
                    
                     <Table
                         data={props.factura.detalle}
@@ -84,7 +84,7 @@ const ReportFactura = (props) => {
                         marginTop: 15
                         }}>Total: {props.factura.total}
                     </Text>
-                </View>
+                </View> */}
                 
             </Page>
         </Document>
