@@ -11,7 +11,6 @@ import { InputText } from 'primereact/inputtext';
 import * as Service from "./Service";
 import * as ServiceTipoVehiculo from "../tipoVehiculo/Service";
 import { MenuItem, Select, TextField } from '@mui/material';
-import { Checkbox } from 'primereact/checkbox';
 
 const Vehiculo = () => {
   let formVehiculo = {
@@ -21,7 +20,6 @@ const Vehiculo = () => {
     modelo: "",
     color: "",
     descripcion: "",
-    disponible: false
 };
 
 const [vehiculos, setVehiculos] = useState(null);
@@ -305,7 +303,6 @@ return (
                               value={vehiculo.placa} 
                               onChange={onInputChange} 
                               required 
-                              autoFocus 
                               className={classNames({ 'p-invalid': submitted && !vehiculo.placa })} 
                           />
                           { submitted &&  !vehiculo.placa && <small className="p-invalid">Placa es requerido.</small>}
@@ -321,7 +318,7 @@ return (
                               value={vehiculo.marca} 
                               onChange={onInputChange} 
                               required 
-                              autoFocus 
+                              fullWidth
                               className={classNames({ 'p-invalid': submitted && !vehiculo.marca })} 
                         />
                         { submitted &&  !vehiculo.marca && <small className="p-invalid">Marca es requerido.</small>}
@@ -342,8 +339,8 @@ return (
                       </div>
                     </div>
 
-                    <div className="formgrid grid">
-                      <div className="field col">
+
+                    <div className="field">
                         <label htmlFor="color">Color*</label>
                         <TextField 
                               id="color" 
@@ -352,24 +349,12 @@ return (
                               onChange={onInputChange} 
                               required 
                               autoFocus 
+                              fullWidth
                               className={classNames({ 'p-invalid': submitted && !vehiculo.color })} 
                         />
                         { submitted &&  !vehiculo.color && <small className="p-invalid">Color es requerido.</small>}
-                      </div>
-                      <div className="field col">
-                        <label htmlFor="nombre">Disponible</label>
-                        <Checkbox 
-                          inputId="disponible" 
-                          name="disponible" 
-                          value={vehiculo.disponible === 1 ? true : vehiculo.disponible === 0 ? false : vehiculo.disponible}
-                          className="w-full"
-                          checked={vehiculo.disponible === 1 ? true : vehiculo.disponible === 0 ? false : vehiculo.disponible} 
-                          onChange={onInputChange} />
-                      </div>
+                      
                     </div>
-
-
-
 
 
 

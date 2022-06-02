@@ -220,14 +220,6 @@ const Viaje = () => {
         );
     }
 
-    const kilometrosBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Kilometros</span>
-                {rowData.kilometros}
-            </>
-        );
-    }
 
     const toneladasBodyTemplate = (rowData) => {
         return (
@@ -243,6 +235,15 @@ const Viaje = () => {
             <>
                 <span className="p-column-title">Precio</span>
                 {rowData.precio}
+            </>
+        );
+    }
+
+    const estadoBodyTemplate = (rowData) => {
+        return (
+            <>
+                <span className="p-column-title">Estado</span>
+                {rowData.estado === 1 ? "NO ASIGNADO" : rowData.estado === 2 ? "ASIGNADO" : "COMPLETADO"}
             </>
         );
     }
@@ -299,9 +300,9 @@ const Viaje = () => {
                         <Column field="cliente" header="Cliente" body={clienteBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
                         <Column field="trayecto" header="Trayecto" sortable body={trayectoBodyTemplate} headerStyle={{ width: '20%', minWidth: '10rem' }}></Column>
                         <Column field="duracion" header="Duración" sortable body={fechaBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
-                        <Column field="kilometros" header="Kilometros" sortable body={kilometrosBodyTemplate} headerStyle={{ width: '5%', minWidth: '10rem' }}></Column>
                         <Column field="toneladas" header="Toneladas" sortable body={toneladasBodyTemplate} headerStyle={{ width: '5%', minWidth: '10rem' }}></Column>
                         <Column field="precio" header="Precio" sortable body={precioBodyTemplate} headerStyle={{ width: '10%', minWidth: '10rem' }}></Column>
+                        <Column field="estado" header="Estado" sortable body={estadoBodyTemplate} headerStyle={{ width: '5%', minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
@@ -442,7 +443,6 @@ const Viaje = () => {
                             />
                         </div>
 
-                        <pre>{JSON.stringify(viaje, null, 2)}</pre>
                     </Dialog>
 
                     <Dialog visible={deleteViajeDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteViajeDialogFooter} onHide={hideDeleteViajeDialog}>
