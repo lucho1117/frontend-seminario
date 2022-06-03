@@ -93,7 +93,7 @@ const Viaje = () => {
     }
 
     const submit = () => {
-        if (viaje.idCargamento && viaje.idCliente && viaje.origen && viaje.destino && viaje.kilometros && viaje.toneladas ) {
+        if (viaje.idCargamento && viaje.idCliente && viaje.origen && viaje.destino && viaje.kilometros && viaje.toneladas && viaje.precio ) {
              if (viaje.idViaje) {
                  edit();
              } else {
@@ -323,7 +323,7 @@ const Viaje = () => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            { submitted &&  !viaje.idCargamento && <small className="p-invalid">Cargamento es requerido.</small>}
+                            { submitted &&  !viaje.idCargamento && <small className="p-error">Cargamento es requerido.</small>}
                         </div>
 
                         <div className="field">
@@ -341,7 +341,7 @@ const Viaje = () => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            { submitted &&  !viaje.idCliente && <small className="p-invalid">Cliente es requerido.</small>}
+                            { submitted &&  !viaje.idCliente && <small className="p-error">Cliente es requerido.</small>}
                         </div>
 
                         <div className="field">
@@ -353,9 +353,9 @@ const Viaje = () => {
                                 onChange={onInputChange} 
                                 required 
                                 fullWidth
-                                className={classNames({ 'p-invalid': submitted && !viaje.origen })} 
+                                className={classNames({ 'p-error': submitted && !viaje.origen })} 
                             />
-                            { submitted &&  !viaje.origen && <small className="p-invalid">Origen es requerido.</small>}
+                            { submitted &&  !viaje.origen && <small className="p-error">Origen es requerido.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="origen">Destino*</label>
@@ -366,9 +366,9 @@ const Viaje = () => {
                                 onChange={onInputChange} 
                                 required 
                                 fullWidth
-                                className={classNames({ 'p-invalid': submitted && !viaje.destino })} 
+                                className={classNames({ 'p-error': submitted && !viaje.destino })} 
                             />
-                            { submitted &&  !viaje.destino && <small className="p-invalid">Destino es requerido.</small>}
+                            { submitted &&  !viaje.destino && <small className="p-error">Destino es requerido.</small>}
                         </div>
                         <div className="formgrid grid">
                             <div className="field col">
@@ -381,7 +381,7 @@ const Viaje = () => {
                                     onChange={onInputChange} 
                                     required 
                                     fullWidth
-                                    className={classNames({ 'p-invalid': submitted && !viaje.fechaInicio })} 
+                                    className={classNames({ 'p-error': submitted && !viaje.fechaInicio })} 
                                 />
                             </div>
                             <div className="field col">
@@ -394,7 +394,7 @@ const Viaje = () => {
                                     onChange={onInputChange} 
                                     required 
                                     fullWidth
-                                    className={classNames({ 'p-invalid': submitted && !viaje.fechaFin })} 
+                                    className={classNames({ 'p-error': submitted && !viaje.fechaFin })} 
                                 />
                             </div>
                         </div>
@@ -410,9 +410,9 @@ const Viaje = () => {
                                     onChange={onInputChange} 
                                     required 
                                     fullWidth
-                                    className={classNames({ 'p-invalid': submitted && !viaje.kilometros })} 
+                                    className={classNames({ 'p-error': submitted && !viaje.kilometros })} 
                                 />
-                                { submitted &&  !viaje.kilometros && <small className="p-invalid">Kilometros es requerido.</small>}
+                                { submitted &&  !viaje.kilometros && <small className="p-error">Kilometros es requerido.</small>}
                             </div>
                             <div className="field col">
                                 <label htmlFor="origen">Toneladas</label>
@@ -424,23 +424,24 @@ const Viaje = () => {
                                     onChange={onInputChange} 
                                     required 
                                     fullWidth
-                                    className={classNames({ 'p-invalid': submitted && !viaje.toneladas })} 
+                                    className={classNames({ 'p-error': submitted && !viaje.toneladas })} 
                                 />
-                                { submitted &&  !viaje.toneladas && <small className="p-invalid">Toneladas es requerido.</small>}
+                                { submitted &&  !viaje.toneladas && <small className="p-error">Toneladas es requerido.</small>}
                             </div>
                         </div>
                         <div className="field">
                             <label htmlFor="origen">Precio</label>
                             <TextField 
                                 id="precio" 
+                                type="number"
                                 name="precio"
                                 value={viaje.precio} 
                                 onChange={onInputChange} 
                                 required 
                                 fullWidth
-                                disabled
-                                className={classNames({ 'p-invalid': submitted && !viaje.precio })} 
+                                className={classNames({ 'p-error': submitted && !viaje.precio })} 
                             />
+                            { submitted &&  !viaje.precio && <small className="p-error">Precio es requerido.</small>}
                         </div>
 
                     </Dialog>

@@ -57,6 +57,7 @@ import Cargamento from './transportes/cargamento/Cargamento';
 import Vehiculo from './transportes/vehiculo/Vehiculo';
 import Viaje from './transportes/viaje/Viaje';
 import ClienteTransporte from './transportes/clientes/Cliente'; 
+import Asignacion from './transportes/asignacion/Asignacion';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -185,18 +186,19 @@ const App = () => {
                         {label: 'Principal', icon: 'pi pi-fw pi-bookmark', to: '/principalVenta'},
                         {label: 'Categorias', icon: 'pi pi-fw pi-bookmark' , to: '/categoria' },
                         {label: 'Productos', icon: 'pi pi-fw pi-bookmark', to: '/producto'},
+                        {label: 'Tipo Alquiler', icon: 'pi pi-fw pi-bookmark', to: '/tipoAlquiler'},
                         {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/ventas'},
-                        {label: 'Tipo Alquiler', icon: 'pi pi-fw pi-bookmark', to: '/tipoAlquiler'}
                     ]
                 },
                 {
                     label: 'TRASNPORTE', icon: 'pi pi-fw pi-bookmark',
                     items: [
-                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/clienteTransporte'},
+                        {label: 'Asignaciones', icon: 'pi pi-fw pi-bookmark', to: '/asignacion'},
                         {label: 'Viajes', icon: 'pi pi-fw pi-bookmark', to: '/viaje'},
+                        {label: 'Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/vehiculo'},
                         {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/tipoVehiculo'},
                         {label: 'Cargamento', icon: 'pi pi-fw pi-bookmark', to: '/cargamento'},
-                        {label: 'Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/vehiculo'}
+                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/clienteTransporte'}
                     ]
                 },
                 {
@@ -346,6 +348,7 @@ const App = () => {
                     <Route path="/vehiculo" component={Vehiculo}/>
                     <Route path="/viaje" component={Viaje}/>
                     <Route path="/clienteTransporte" component={ClienteTransporte}/>
+                    <Route path="/asignacion" component={Asignacion}/>
 
 
 
