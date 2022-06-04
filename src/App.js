@@ -53,7 +53,6 @@ import PrincipalVentas from './ventas/PrincipalVentas';
 
 
 import TipoVehiculo from './transportes/tipoVehiculo/TipoVehiculo';
-import Cargamento from './transportes/cargamento/Cargamento';
 import Vehiculo from './transportes/vehiculo/Vehiculo';
 import Viaje from './transportes/viaje/Viaje';
 import ClienteTransporte from './transportes/clientes/Cliente'; 
@@ -197,7 +196,6 @@ const App = () => {
                         {label: 'Viajes', icon: 'pi pi-fw pi-bookmark', to: '/viaje'},
                         {label: 'Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/vehiculo'},
                         {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/tipoVehiculo'},
-                        {label: 'Cargamento', icon: 'pi pi-fw pi-bookmark', to: '/cargamento'},
                         {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/clienteTransporte'}
                     ]
                 },
@@ -344,7 +342,6 @@ const App = () => {
                     <Route path="/principalVenta" component={PrincipalVentas} />
 
                     <Route path="/tipoVehiculo" component={TipoVehiculo}/>
-                    <Route path="/cargamento" component={Cargamento}/>
                     <Route path="/vehiculo" component={Vehiculo}/>
                     <Route path="/viaje" component={Viaje}/>
                     <Route path="/clienteTransporte" component={ClienteTransporte}/>

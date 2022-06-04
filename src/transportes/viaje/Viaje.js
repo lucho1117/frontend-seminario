@@ -253,8 +253,14 @@ const Viaje = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editViaje(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteViaje(rowData)} />
+                {
+                    rowData.estado === 1 ? (
+                        <>
+                        <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editViaje(rowData)} />
+                        <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteViaje(rowData)} />
+                        </>
+                    ):null
+                }
             </div>
         );
     }

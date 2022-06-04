@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef} from 'react';
-import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Toolbar } from 'primereact/toolbar';
-import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import * as Service from "./Service";
@@ -13,6 +11,9 @@ import * as ServiceViaje from "../viaje/Service";
 import { MenuItem, Select } from '@mui/material';
 import * as ServiceVehiculo from "../vehiculo/Service";
 import * as ServiceEmpleado from "../../user/empleado/Service";
+
+import ReportAsignacion from './ReportAsignacion';
+import { PDFViewer } from '@react-pdf/renderer';
 
 
 const Asignacion = () => {
@@ -37,7 +38,11 @@ const Asignacion = () => {
     const [empleados, setEmpleados] = useState([]);
 
     const [viaje, setViaje] = useState("");
-  
+
+    const [asignacionReportDialog, setasignacionReportDialog] = useState(false);
+    const [empezarDialog, setEmpezarDialog] = useState(false);
+    const [terminarDialog, setTerminarDialog] = useState(false);
+
     useEffect(() => {
         list();
         listViajes();
@@ -147,15 +152,22 @@ const Asignacion = () => {
 
 
 
-    const editasignacion = (asignacion) => {
-        setAsignacion({ ...asignacion });
-        setAsignacionDialog(true);
-    }
-
     const confirmDeleteasignacion = (asignacion) => {
         setAsignacion(asignacion);
         setDeleteAsigncionDialog(true);
     }
+
+    const confirmEmpezarAsignacion = (asignacion) => {
+        setAsignacion(asignacion);
+        setEmpezarDialog(true);
+    }
+
+    const confirmFinalizarAsignacion = (asignacion) => {
+        setAsignacion(asignacion);
+        setTerminarDialog(true);
+    }
+
+    
 
     const deleteasignacion = async () => {
         let resp = await Service.deleteById(asignacion);
@@ -163,6 +175,30 @@ const Asignacion = () => {
             list();
             setDeleteAsigncionDialog(false);
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Eliminado correctamente', life: 3000 });
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+
+    }
+
+    const empezarAsignacion = async () => {
+        let resp = await Service.empezarRuta(asignacion);
+        if ( resp.valid ) {
+            list();
+            setEmpezarDialog(false);
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Buen Viaje', life: 3000 });
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+
+    }
+
+    const terminarAsignacion = async () => {
+        let resp = await Service.terminarRuta(asignacion);
+        if ( resp.valid ) {
+            list();
+            setTerminarDialog(false);
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Ha finalizado el viaje con exito', life: 3000 });
         } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
         }
@@ -185,6 +221,7 @@ const Asignacion = () => {
         return (
             <React.Fragment>
                 <div className="my-2">
+                    <Button label="REPORTE" icon="pi pi-file-pdf" className="p-button-info mr-2" onClick={()=>{setasignacionReportDialog(true)}} />
                     <Button label="AGREGAR" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
                 </div>
             </React.Fragment>
@@ -203,8 +240,20 @@ const Asignacion = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editasignacion(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteasignacion(rowData)} />
+                
+                {
+                    rowData.estado === 2 ? (
+                        <Button icon="pi pi-check-circle" className="p-button-rounded p-button-success mr-2" onClick={() => confirmFinalizarAsignacion(rowData)} />
+                    ):null
+                }
+                {
+                    rowData.estado === 1 ? (
+                        <>
+                        <Button icon="pi pi-play" className="p-button-rounded p-button-warning mr-2" onClick={() => confirmEmpezarAsignacion(rowData)} />
+                        <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteasignacion(rowData)} />
+                        </>
+                    ):null
+                }
             </div>
         );
     }
@@ -231,6 +280,32 @@ const Asignacion = () => {
             <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deleteasignacion} />
         </>
     );
+
+    const empezarRutaDialogFooter = (
+        <>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideEmpezarDialog} />
+            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={empezarAsignacion} />
+        </>
+    );
+
+    const terminarRutaDialogFooter = (
+        <>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideTerminarDialog} />
+            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={terminarAsignacion} />
+        </>
+    );
+
+    const hideDialogReporte = () => {
+        setasignacionReportDialog(false);
+    }
+
+    const hideEmpezarDialog = () => {
+        setEmpezarDialog(false);
+    }
+
+    const hideTerminarDialog = () => {
+        setTerminarDialog(false);
+    }
 
     return (
         <div className="grid crud-demo">
@@ -321,6 +396,27 @@ const Asignacion = () => {
                         </div>
                     </Dialog>
 
+                    <Dialog visible={asignacionReportDialog} style={{ width: '1500px' }} modal className="p-fluid"  onHide={hideDialogReporte}>
+                        <PDFViewer style={{width:"100%", height: "90vh"}}>
+                            <ReportAsignacion 
+                                asignaciones={asignaciones}
+                            />
+                        </PDFViewer>
+                    </Dialog>
+
+                    <Dialog visible={empezarDialog} style={{ width: '450px' }} modal className="p-fluid" footer={empezarRutaDialogFooter} onHide={hideEmpezarDialog}>
+                        <div className="flex align-items-center justify-content-center">
+                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                            {<span>Esta seguro de iniciar la Ruta?</span>}
+                        </div>
+                    </Dialog>
+
+                    <Dialog visible={terminarDialog} style={{ width: '450px' }} modal className="p-fluid" footer={terminarRutaDialogFooter} onHide={hideTerminarDialog}>
+                        <div className="flex align-items-center justify-content-center">
+                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                            {<span>Esta seguro de finalizar la Ruta?</span>}
+                        </div>
+                    </Dialog>
                 </div>
             </div>
         </div>

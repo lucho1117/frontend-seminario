@@ -22,3 +22,13 @@ export async function deleteById(obj) {
     let respuesta = await axios.post(URL + `/asignacion/delete`, obj);
 	return respuesta.data;
 }
+
+export async function empezarRuta(obj) {
+    let respuesta = await axios.post(URL + `/asignacion/empezarRuta`, obj);
+	return respuesta.data;
+}
+
+export async function terminarRuta(obj) {
+    let respuesta = await axios.post(URL + `/asignacion/terminarRuta`, obj);
+	return respuesta.data;
+}
