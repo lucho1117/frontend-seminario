@@ -12,6 +12,7 @@ import * as Service from "./Service";
 import * as ServiceTipoObra from "../tipoObra/Service";
 import { MenuItem, Select, TextField } from '@mui/material';
 import * as ServiceCliente from "../../user/clientes/Service";
+import Fase from "./fase/Fase";
 
 const Obra = () => {
 
@@ -37,6 +38,7 @@ const Obra = () => {
     const [tipoObras, setTipoObras] = useState([]);
     const [clientes, setClientes] = useState([]);
 
+    const [flagObra, setFlagObra] = useState(false);
     useEffect(() => {
         list();
         listTipoObras();
@@ -124,6 +126,11 @@ const Obra = () => {
     const editobra = (obra) => {
         setObra({ ...obra });
         setObraDialog(true);
+    }
+
+    const faseObra = (obra) => {
+        setObra({ ...obra });
+        setFlagObra(true);
     }
 
     const confirmDeleteobra = (obra) => {
@@ -225,6 +232,7 @@ const Obra = () => {
         return (
             <div className="actions">
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editobra(rowData)} />
+                <Button icon="pi pi-sitemap" className="p-button-rounded p-button-success mr-2" onClick={() => faseObra(rowData)} />
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteobra(rowData)} />
             </div>
         );
@@ -254,150 +262,166 @@ const Obra = () => {
     );
 
     return (
-        <div className="grid crud-demo">
-            <div className="col-12">
-                <div className="card">
-                    <Toast ref={toast} />
-                    <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
+        <>
+        {
+            !flagObra ? (
+                <div className="grid crud-demo">
+                    <div className="col-12">
+                        <div className="card">
+                            <Toast ref={toast} />
+                            <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={obras}
-                        dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
-                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} obras"
-                        globalFilter={globalFilter} emptyMessage="No obras found." header={header} responsiveLayout="scroll">
+                            <DataTable ref={dt} value={obras}
+                                dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
+                                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                                currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} obras"
+                                globalFilter={globalFilter} emptyMessage="No obras found." header={header} responsiveLayout="scroll">
 
-                        <Column field="idObra" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '5%', minWidth: '10rem' }}></Column>
-                        <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate} headerStyle={{ width: '25%', minWidth: '10rem' }}></Column>
-                        <Column field="cliente" header="Cliente" body={clienteBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
-                        <Column field="tipoObra" header="Tipo Obra" body={tipoObraBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
-                        <Column field="descripcion" header="Descripción" body={descripcionBodyTemplate} sortable headerStyle={{ width: '25%', minWidth: '8rem' }}></Column>
-                        <Column field="costo" header="Costo" body={costoBodyTemplate} sortable headerStyle={{ width: '25%', minWidth: '8rem' }}></Column>
-                        <Column body={actionBodyTemplate}></Column>
-                    </DataTable>
+                                <Column field="idObra" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '5%', minWidth: '10rem' }}></Column>
+                                <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate} headerStyle={{ width: '25%', minWidth: '10rem' }}></Column>
+                                <Column field="cliente" header="Cliente" body={clienteBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
+                                <Column field="tipoObra" header="Tipo Obra" body={tipoObraBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
+                                <Column field="descripcion" header="Descripción" body={descripcionBodyTemplate} sortable headerStyle={{ width: '25%', minWidth: '8rem' }}></Column>
+                                <Column field="costo" header="Costo" body={costoBodyTemplate} sortable headerStyle={{ width: '25%', minWidth: '8rem' }}></Column>
+                                <Column body={actionBodyTemplate}></Column>
+                            </DataTable>
 
-                    <Dialog visible={obraDialog} style={{ width: '1200px' }} header={obra.idObra ? "EDITAR" : "NUEVO"} modal className="p-fluid" footer={obraDialogFooter} onHide={hideDialog}>
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="descripcion">Tipo obra*</label>
-                                <Select 
-                                    value={obra.idTipoObra} 
-                                    className="w-full"
-                                    id="idTipoObra" 
-                                    name="idTipoObra" 
-                                    autoFocus 
-                                    onChange={onInputChange}>
-                                    {tipoObras.map((item, index) => (
-                                        <MenuItem value={item.idTipoObra} key={index}>
-                                            {item.nombre}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                                { submitted &&  !obra.idTipoObra && <small className="p-error">Tipo obra es requerida.</small>}
-                            </div>
-                            <div className="field col">
-                                <label htmlFor="descripcion">Cliente*</label>
-                                <Select 
-                                    value={obra.idCliente} 
-                                    className="w-full"
-                                    id="idCliente" 
-                                    name="idCliente" 
-                                    autoFocus 
-                                    onChange={onInputChange}>
-                                    {clientes.map((item, index) => (
-                                        <MenuItem value={item.idCliente} key={index}>
-                                            {item.nombre}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                                { submitted &&  !obra.idCliente && <small className="p-error">Cliente es requerida.</small>}
-                            </div>
+                            <Dialog visible={obraDialog} style={{ width: '1200px' }} header={obra.idObra ? "EDITAR" : "NUEVO"} modal className="p-fluid" footer={obraDialogFooter} onHide={hideDialog}>
+                                <div className="formgrid grid">
+                                    <div className="field col">
+                                        <label htmlFor="descripcion">Tipo obra*</label>
+                                        <Select 
+                                            value={obra.idTipoObra} 
+                                            className="w-full"
+                                            id="idTipoObra" 
+                                            name="idTipoObra" 
+                                            autoFocus 
+                                            onChange={onInputChange}>
+                                            {tipoObras.map((item, index) => (
+                                                <MenuItem value={item.idTipoObra} key={index}>
+                                                    {item.nombre}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                        { submitted &&  !obra.idTipoObra && <small className="p-error">Tipo obra es requerida.</small>}
+                                    </div>
+                                    <div className="field col">
+                                        <label htmlFor="descripcion">Cliente*</label>
+                                        <Select 
+                                            value={obra.idCliente} 
+                                            className="w-full"
+                                            id="idCliente" 
+                                            name="idCliente" 
+                                            autoFocus 
+                                            onChange={onInputChange}>
+                                            {clientes.map((item, index) => (
+                                                <MenuItem value={item.idCliente} key={index}>
+                                                    {item.nombre}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                        { submitted &&  !obra.idCliente && <small className="p-error">Cliente es requerida.</small>}
+                                    </div>
+                                </div>
+                                <div className="formgrid grid">
+                                    <div className="field col">
+                                        <label htmlFor="nombre">Nombre*</label>
+                                        <InputText 
+                                            id="nombre" 
+                                            name="nombre"
+                                            value={obra.nombre} 
+                                            onChange={onInputChange} 
+                                            required 
+                                            
+                                            className={classNames({ 'p-error': submitted && !obra.nombre })} 
+                                        />
+                                        { submitted &&  !obra.nombre && <small className="p-error">Nombre es requerido.</small>}
+                                    </div>
+                                    <div className="field col">
+                                        <label htmlFor="nombre">Costo</label>
+                                        <InputText 
+                                            id="costo" 
+                                            name="costo"
+                                            type="number"
+                                            value={obra.costo} 
+                                            onChange={onInputChange} 
+                                            required 
+                                            
+                                            className={classNames({ 'p-error': submitted && !obra.costo })} 
+                                        />
+                                        { submitted &&  !obra.costo && <small className="p-error">costo es requerido.</small>}
+                                    </div>
+                                </div>
+                                <div className="formgrid grid">
+                                    <div className="field col">
+                                        <label htmlFor="price">Fecha Inicio</label>
+                                        <TextField
+                                            type="date"
+                                            id="fechaInicio"
+                                            name="fechaInicio"
+                                            value={ obra.fechaInicio }
+                                            onChange={onInputChange}
+                                            variant="outlined"
+                                            fullWidth
+                                            required
+                                            className="w-full"
+                                        />
+                                        { submitted &&  !obra.fechaInicio && <small className="p-error">Fecha Inicio es requerido.</small>}
+                                    </div>
+                                    <div className="field col">
+                                        <label htmlFor="quantity">Fecha Fin</label>
+                                        <TextField
+                                            type="date"
+                                            id="fechaFin"
+                                            name="fechaFin"
+                                            value={ obra.fechaFin }
+                                            onChange={onInputChange}
+                                            variant="outlined"
+                                            fullWidth
+                                            required
+                                            className="w-full"
+                                        />
+                                        { submitted &&  !obra.fechaFin && <small className="p-error">Fecha Fin es requerido.</small>}
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label htmlFor="descripcion">Descripción</label>
+                                    <InputTextarea 
+                                        id="descripcion" 
+                                        name="descripcion"
+                                        value={obra.descripcion} 
+                                        onChange={onInputChange} 
+                                        required 
+                                        rows={3} 
+                                        cols={20} 
+                                    />
+                                </div>
+
+                            </Dialog>
+
+                            <Dialog visible={deleteObraDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteObraDialogFooter} onHide={hideDeleteObraDialog}>
+                                <div className="flex align-items-center justify-content-center">
+                                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                                    {obra && <span>Desea eliminar este item: <b>{obra.nombre}</b>?</span>}
+                                </div>
+                            </Dialog>
+
                         </div>
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="nombre">Nombre*</label>
-                                <InputText 
-                                    id="nombre" 
-                                    name="nombre"
-                                    value={obra.nombre} 
-                                    onChange={onInputChange} 
-                                    required 
-                                    
-                                    className={classNames({ 'p-error': submitted && !obra.nombre })} 
-                                />
-                                { submitted &&  !obra.nombre && <small className="p-error">Nombre es requerido.</small>}
-                            </div>
-                            <div className="field col">
-                                <label htmlFor="nombre">Costo</label>
-                                <InputText 
-                                    id="costo" 
-                                    name="costo"
-                                    type="number"
-                                    value={obra.costo} 
-                                    onChange={onInputChange} 
-                                    required 
-                                    
-                                    className={classNames({ 'p-error': submitted && !obra.costo })} 
-                                />
-                                { submitted &&  !obra.costo && <small className="p-error">costo es requerido.</small>}
-                            </div>
-                        </div>
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="price">Fecha Inicio</label>
-                                <TextField
-                                    type="date"
-                                    id="fechaInicio"
-                                    name="fechaInicio"
-                                    value={ obra.fechaInicio }
-                                    onChange={onInputChange}
-                                    variant="outlined"
-                                    fullWidth
-                                    required
-                                    className="w-full"
-                                />
-                                { submitted &&  !obra.fechaInicio && <small className="p-error">Fecha Inicio es requerido.</small>}
-                            </div>
-                            <div className="field col">
-                                <label htmlFor="quantity">Fecha Fin</label>
-                                <TextField
-                                    type="date"
-                                    id="fechaFin"
-                                    name="fechaFin"
-                                    value={ obra.fechaFin }
-                                    onChange={onInputChange}
-                                    variant="outlined"
-                                    fullWidth
-                                    required
-                                    className="w-full"
-                                />
-                                { submitted &&  !obra.fechaFin && <small className="p-error">Fecha Fin es requerido.</small>}
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="descripcion">Descripción</label>
-                            <InputTextarea 
-                                id="descripcion" 
-                                name="descripcion"
-                                value={obra.descripcion} 
-                                onChange={onInputChange} 
-                                required 
-                                rows={3} 
-                                cols={20} 
-                            />
-                        </div>
-
-                    </Dialog>
-
-                    <Dialog visible={deleteObraDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteObraDialogFooter} onHide={hideDeleteObraDialog}>
-                        <div className="flex align-items-center justify-content-center">
-                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {obra && <span>Desea eliminar este item: <b>{obra.nombre}</b>?</span>}
-                        </div>
-                    </Dialog>
-
+                    </div>
                 </div>
-            </div>
-        </div>
+            ):null
+        }
+        
+        {
+            flagObra ? (
+                <Fase 
+                    obra={obra}
+                    setFlagObra={setFlagObra}
+                />
+            ):null
+        }
+
+        </>
     )
 }
 
