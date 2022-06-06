@@ -60,6 +60,7 @@ import Asignacion from './transportes/asignacion/Asignacion';
 
 import TipoObra from './construccion/tipoObra/TipoObra';
 import TipoMaterial from './construccion/tipoMaterial/TipoMaterial';
+import Material from './construccion/material/Material';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -206,6 +207,7 @@ const App = () => {
                     label: 'CONSTRUCCION', icon: 'pi pi-fw pi-bookmark',
                     items: [
                         {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/construccion'},
+                        {label: 'Materiales', icon: 'pi pi-fw pi-bookmark', to: '/material'},
                         {label: 'Tipo Obras', icon: 'pi pi-fw pi-bookmark', to: '/tipoObra'},
                         {label: 'Tipo Materiales', icon: 'pi pi-fw pi-bookmark', to: '/tipoMaterial'},
                     ]
@@ -354,6 +356,7 @@ const App = () => {
 
                     <Route path="/tipoObra" component={TipoObra}/>
                     <Route path="/tipoMaterial" component={TipoMaterial}/>
+                    <Route path="/material" component={Material}/>
 
 
 
