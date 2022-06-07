@@ -65,7 +65,7 @@ import Obra from './construccion/obra/Obra';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
-    const [layoutColorMode, setLayoutColorMode] = useState('dark')
+    const [layoutColorMode, setLayoutColorMode] = useState('light')
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(true);
     const [staticMenuInactive, setStaticMenuInactive] = useState(false);
@@ -318,6 +318,12 @@ const App = () => {
     const wrapperClass = classNames('layout-wrapper', {
         'layout-overlay': layoutMode === 'overlay',
         'layout-static': layoutMode === 'static',
+        'layout-static-sidebar-inactive': staticMenuInactive && layoutMode === 'static',
+        'layout-overlay-sidebar-active': overlayMenuActive && layoutMode === 'overlay',
+        'layout-mobile-sidebar-active': mobileMenuActive,
+        'p-input-filled': inputStyle === 'filled',
+        'p-ripple-disabled': ripple === false,
+        'layout-theme-light': layoutColorMode === 'light'
     });
 
     return (
@@ -328,7 +334,7 @@ const App = () => {
                 mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
 
             <div className="layout-sidebar" onClick={onSidebarClick}>
-                <AppMenu model={menu} onMenuItemClick={onMenuItemClick}  />
+                <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
             </div>
 
             <div className="layout-main-container">

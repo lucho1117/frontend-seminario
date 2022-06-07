@@ -27,3 +27,8 @@ export async function deleteById(obj) {
     let respuesta = await axios.post(URL + `/empleado/delete`, obj);
 	return respuesta.data;
 }
+
+export async function listByArea(obj) {
+    let respuesta = await axios.post(URL + `/empleado/listByArea`, obj);
+	return respuesta.data;
+}
