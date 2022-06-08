@@ -63,6 +63,9 @@ import TipoMaterial from './construccion/tipoMaterial/TipoMaterial';
 import Material from './construccion/material/Material';
 import Obra from './construccion/obra/Obra';
 
+import TipoMateriaPrima from './plantas/tipoMateriaPrima/TipoMateriaPrima';
+import TipoMaquinaria from './plantas/tipoMaquinaria/TipoMaquinaria';
+
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light')
@@ -176,50 +179,50 @@ const App = () => {
 
     const menu = [
         {
-            label: 'Home',
+            label: 'Inicio',
             items: [{
-                label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'
+                label: 'Principal', icon: 'pi pi-fw pi-home', to: '/'
             }]
         },
         {
             label: 'MODULOS', icon: 'pi pi-fw pi-search',
             items: [
                 {
-                    label: 'VENTAS', icon: 'pi pi-fw pi-bookmark',
+                    label: 'VENTAS', icon: 'pi pi-fw pi-shopping-cart',
                     items: [
-                        {label: 'Principal', icon: 'pi pi-fw pi-bookmark', to: '/principalVenta'},
-                        {label: 'Categorias', icon: 'pi pi-fw pi-bookmark' , to: '/categoria' },
-                        {label: 'Productos', icon: 'pi pi-fw pi-bookmark', to: '/producto'},
-                        {label: 'Tipo Alquiler', icon: 'pi pi-fw pi-bookmark', to: '/tipoAlquiler'},
-                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/ventas'},
+                        {label: 'Principal', icon: 'pi pi-fw pi-tags', to: '/principalVenta'},
+                        {label: 'Categorias', icon: 'pi pi-fw pi-sitemap' , to: '/categoria' },
+                        {label: 'Productos', icon: 'pi pi-fw pi-table', to: '/producto'},
+                        {label: 'Tipo Alquiler', icon: 'pi pi-fw pi-th-large', to: '/tipoAlquiler'},
+                        {label: 'Clientes', icon: 'pi pi-fw pi-users', to: '/cliente/ventas'},
                     ]
                 },
                 {
-                    label: 'TRASNPORTE', icon: 'pi pi-fw pi-bookmark',
+                    label: 'TRASNPORTE', icon: 'pi pi-fw pi-car',
                     items: [
-                        {label: 'Asignaciones', icon: 'pi pi-fw pi-bookmark', to: '/asignacion'},
-                        {label: 'Viajes', icon: 'pi pi-fw pi-bookmark', to: '/viaje'},
-                        {label: 'Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/vehiculo'},
-                        {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/tipoVehiculo'},
-                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/clienteTransporte'}
+                        {label: 'Asignaciones', icon: 'pi pi-fw pi-tag', to: '/asignacion'},
+                        {label: 'Viajes', icon: 'pi pi-fw pi-send', to: '/viaje'},
+                        {label: 'Vehiculo', icon: 'pi pi-fw pi-car', to: '/vehiculo'},
+                        {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-clone', to: '/tipoVehiculo'},
+                        {label: 'Clientes', icon: 'pi pi-fw pi-users', to: '/clienteTransporte'}
                     ]
                 },
                 {
-                    label: 'CONSTRUCCION', icon: 'pi pi-fw pi-bookmark',
+                    label: 'CONSTRUCCION', icon: 'pi pi-fw pi-building',
                     items: [
-                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/construccion'},
-                        {label: 'Obras', icon: 'pi pi-fw pi-bookmark', to: '/obra'},
-                        {label: 'Materiales', icon: 'pi pi-fw pi-bookmark', to: '/material'},
-                        {label: 'Tipo Obras', icon: 'pi pi-fw pi-bookmark', to: '/tipoObra'},
-                        {label: 'Tipo Materiales', icon: 'pi pi-fw pi-bookmark', to: '/tipoMaterial'},
+                        {label: 'Clientes', icon: 'pi pi-fw pi-users', to: '/cliente/construccion'},
+                        {label: 'Obras', icon: 'pi pi-fw pi-building', to: '/obra'},
+                        {label: 'Materiales', icon: 'pi pi-fw pi-briefcase', to: '/material'},
+                        {label: 'Tipo Obras', icon: 'pi pi-fw pi-box', to: '/tipoObra'},
+                        {label: 'Tipo Materiales', icon: 'pi pi-fw pi-sitemap', to: '/tipoMaterial'},
                     ]
                 },
                 
                 {
-                    label: 'PLANTAS', icon: 'pi pi-fw pi-bookmark',
+                    label: 'PLANTAS', icon: 'pi pi-fw pi-th-large',
                     items: [
-                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
-                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
+                        {label: 'Tipo Materia Prima', icon: 'pi pi-fw pi-bookmark', to: '/pi-sitemap'},
+                        {label: 'Tipo Maquinaria', icon: 'pi pi-fw pi-car', to: '/tipoMaquinaria'},
                     ]
                 },
             ]
@@ -360,6 +363,10 @@ const App = () => {
                     <Route path="/tipoMaterial" component={TipoMaterial}/>
                     <Route path="/material" component={Material}/>
                     <Route path="/obra" component={Obra}/>
+
+
+                    <Route path="/tipoMaquinaria" component={TipoMaquinaria}/>
+                    <Route path="/tipoMateriaPrima" component={TipoMateriaPrima}/>
 
 
 
