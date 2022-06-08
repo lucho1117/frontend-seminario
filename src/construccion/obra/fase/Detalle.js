@@ -22,6 +22,7 @@ const Detalle = (props) => {
             precio: material.precio,
             material: material.nombre
         });
+        // eslint-disable-next-line
     }, [material]);
 
     useEffect(() => {
@@ -29,6 +30,7 @@ const Detalle = (props) => {
             ...props.manoObra,
             empleado: manoObra.nombre + " " + manoObra.apellido
         });
+        // eslint-disable-next-line
     }, [manoObra]);
 
     const clearMaterial = () => {
@@ -118,7 +120,7 @@ const Detalle = (props) => {
         if ( props.detalleMaterial.idMaterial && props.detalleMaterial.cantidad ) {
 
             let aux = props.fase.materiales;
-            const mismoProducto = aux.filter( item =>{ if (item.idMaterial === props.detalleMaterial.idMaterial) return item });
+            const mismoProducto = aux.filter( item => item.idMaterial === props.detalleMaterial.idMaterial);
             
             if (mismoProducto.length > 0 ) {
                 toast.current.show({ severity: 'info', summary: 'Info', detail: "No se puede agregar un mismo material más de una vez.", life: 3000 });
@@ -140,7 +142,7 @@ const Detalle = (props) => {
         if ( props.manoObra.idEmpleado && props.manoObra.costo ) {
 
             let aux = props.fase.manoObra;
-            const mismoProducto = aux.filter( item =>{ if (item.idEmpleado === props.manoObra.idEmpleado) return item });
+            const mismoProducto = aux.filter( item => item.idEmpleado === props.manoObra.idEmpleado);
             
             if (mismoProducto.length > 0 ) {
                 toast.current.show({ severity: 'info', summary: 'Info', detail: "No se puede agregar un mismo empleado más de una vez.", life: 3000 });
@@ -181,7 +183,7 @@ const Detalle = (props) => {
     const conteoTotalMaterial = () => {
         let aux = props.fase.materiales;  
         let acumulado = 0;
-        aux.map(item => {
+        aux.forEach(item => {
             acumulado = acumulado + item.precioTotal;
         });     
         props.setFase({
@@ -194,7 +196,7 @@ const Detalle = (props) => {
     const conteoTotalManoObra = () => {
         let aux = props.fase.manoObra;  
         let acumulado = 0;
-        aux.map(item => {
+        aux.forEach(item => {
             acumulado = acumulado + item.costo;
         });     
         props.setFase({

@@ -63,6 +63,7 @@ const Fase = (props) => {
         list();
         listMateriales();
         listEmpleados();
+        // eslint-disable-next-line
     }, []);
 
     const list = async()  => {
@@ -136,6 +137,10 @@ const Fase = (props) => {
         setDeleteFaseDialog(true);
     }
 
+    const hideDeleteFaseDialog = () => {
+        setDeleteFaseDialog(false);
+    }
+
     const deleteFase = async () => {
         let resp = await Service.deleteById(fase);
         if ( resp.valid ) {
@@ -154,10 +159,6 @@ const Fase = (props) => {
             <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deleteFase} />
         </>
     );
-
-    const hideDeleteFaseDialog = () => {
-        setDeleteFaseDialog(false);
-    }
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">

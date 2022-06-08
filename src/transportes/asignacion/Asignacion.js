@@ -216,6 +216,14 @@ const Asignacion = () => {
         setSubmitted(true);
     }
 
+    const hideEmpezarDialog = () => {
+        setEmpezarDialog(false);
+    }
+
+    const hideTerminarDialog = () => {
+        setTerminarDialog(false);
+    }
+
 
     const rightToolbarTemplate = () => {
         return (
@@ -299,13 +307,7 @@ const Asignacion = () => {
         setasignacionReportDialog(false);
     }
 
-    const hideEmpezarDialog = () => {
-        setEmpezarDialog(false);
-    }
 
-    const hideTerminarDialog = () => {
-        setTerminarDialog(false);
-    }
 
     return (
         <div className="grid crud-demo">

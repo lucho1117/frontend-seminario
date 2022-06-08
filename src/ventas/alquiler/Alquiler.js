@@ -64,14 +64,11 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  
-   
-        setalquiler({
-            ...alquiler,
-            precio: producto.precio
-        });
-    
-  
+    setalquiler({
+        ...alquiler,
+        precio: producto.precio
+    });
+    // eslint-disable-next-line
 }, [producto]);
 
 useEffect(() => {
@@ -88,7 +85,7 @@ useEffect(() => {
                 moment( sumarDias(new Date(), 1)).format("YYYY-MM-DD")
         });
     }
-  
+    // eslint-disable-next-line
 }, [tipo]);
 
 
