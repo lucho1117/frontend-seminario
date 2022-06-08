@@ -527,15 +527,6 @@ const Detalle = (props) => {
                 </div>
             </div>
 
-            <div className="col-4">
-                <pre>{JSON.stringify(props.fase, null, 2)}</pre>
-            </div>
-            <div className="col-4">
-                <pre>{JSON.stringify(props.detalleMaterial, null, 2)}</pre>
-            </div>
-            <div className="col-4">
-                <pre>{JSON.stringify(props.manoObra, null, 2)}</pre>
-            </div>
         </div>
     )
 }
