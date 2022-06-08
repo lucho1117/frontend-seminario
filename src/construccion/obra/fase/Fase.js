@@ -9,7 +9,9 @@ import * as Service from "./Service";
 import Detalle from "./Detalle";
 import * as ServiceMaterial from "../../material/Service";
 import * as ServiceEmpleado from "../../../user/empleado/Service";
-
+import ReportFase from './ReportFase';
+import { PDFViewer } from '@react-pdf/renderer';
+import { Dialog } from 'primereact/dialog';
 
 
 const Fase = (props) => {
@@ -53,6 +55,9 @@ const Fase = (props) => {
 
     const [empleados, setEmpleados] = useState([]);
     const [materiales, setMateriales] = useState([]);
+
+    const [faseDialog, setFaseDialog] = useState(false);
+    const [deleteFaseDialog, setDeleteFaseDialog] = useState(false);
   
     useEffect(() => {
         list();
@@ -94,9 +99,6 @@ const Fase = (props) => {
         setFlagDetalle(true);
     }
 
-    const editFase = (fase) => {
-        setFase({ ...fase });
-    }
 
     const rightToolbarTemplate = () => {
         return (
@@ -112,9 +114,49 @@ const Fase = (props) => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editFase(rowData)} />
+                <Button 
+                    icon="pi pi-file-pdf" 
+                    className="p-button-rounded p-button-info mr-2" 
+                    onClick={()=>{
+                        setFaseDialog(true);
+                        setFase(rowData);
+                    }}     
+                />
+                <Button 
+                    icon="pi pi-trash" 
+                    className="p-button-rounded p-button-danger mt-2" 
+                    onClick={() => confirmDeleteFase(rowData)} 
+                />
             </div>
         );
+    }
+
+    const confirmDeleteFase = (fase) => {
+        setFase(fase);
+        setDeleteFaseDialog(true);
+    }
+
+    const deleteFase = async () => {
+        let resp = await Service.deleteById(fase);
+        if ( resp.valid ) {
+            list();
+            setDeleteFaseDialog(false);
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Eliminado correctamente', life: 3000 });
+        } else {
+            toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
+        }
+
+    }
+
+    const deleteFaseDialogFooter = (
+        <>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteFaseDialog} />
+            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deleteFase} />
+        </>
+    );
+
+    const hideDeleteFaseDialog = () => {
+        setDeleteFaseDialog(false);
     }
 
     const header = (
@@ -127,6 +169,9 @@ const Fase = (props) => {
         </div>
     );
 
+    const hideDialog = () => {
+        setFaseDialog(false);
+    }
 
     return (
         <>
@@ -183,6 +228,22 @@ const Fase = (props) => {
                 />
             ):null
         }
+
+            <Dialog visible={deleteFaseDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteFaseDialogFooter} onHide={hideDeleteFaseDialog}>
+                <div className="flex align-items-center justify-content-center">
+                    <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                    { <span>Desea eliminar la fase No. <b>{fase.idFase}</b>?</span>}
+                </div>
+            </Dialog>
+
+            <Dialog visible={faseDialog} style={{ width: '1500px' }} modal className="p-fluid"  onHide={hideDialog}>
+                <PDFViewer style={{width:"100%", height: "90vh"}}>
+                    <ReportFase 
+                        fase={fase}
+                    />
+                </PDFViewer>
+
+            </Dialog>
         </>
     )
 }
