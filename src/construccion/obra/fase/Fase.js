@@ -61,7 +61,8 @@ const Fase = (props) => {
     }, []);
 
     const list = async()  => {
-        let resp = await Service.list();
+        const aux = { idObra: props.obra.idObra}
+        let resp = await Service.listByObra(aux);
         if (resp.valid) {
             setFases(resp.data);
         } else {
@@ -178,6 +179,7 @@ const Fase = (props) => {
                     materiales={materiales}
 
                     toast={toast}
+                    list={list}
                 />
             ):null
         }

@@ -3,9 +3,9 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
-import { Toolbar } from 'primereact/toolbar';
 import { InputText } from 'primereact/inputtext';
 import { MenuItem, Select, TextField } from '@mui/material';
+import * as Service from './Service';
 const Detalle = (props) => {
     const [submitted, setSubmitted] = useState(false);
     const [submittedMaterial, setSubmittedMaterial] = useState(false);
@@ -15,6 +15,7 @@ const Detalle = (props) => {
     const [manoObra, setManoObra] = useState("");
 
     const toast = useRef(null);
+
     useEffect(() => {
         props.setDetalleMaterial({
             ...props.detalleMaterial,
@@ -55,7 +56,7 @@ const Detalle = (props) => {
     const onInputChange = (e) => {
         const { value, name } = e.target;
        
-        props.setDetalleMaterial({
+        props.setFase({
             ...props.fase,
             [name]: value,
         });
@@ -83,10 +84,17 @@ const Detalle = (props) => {
     const onInputChangeManoObra = (e) => {
         const { value, name } = e.target;
         
-        props.setManoObra({
-            ...props.manoObra,
-            [name]: value,
-        });
+        if ( name === 'costo') {
+            props.setManoObra({
+                ...props.manoObra,
+                [name]: value * 1,
+            });
+        } else {
+            props.setManoObra({
+                ...props.manoObra,
+                [name]: value,
+            });
+        }
         setSubmittedManoObra(true);
     }
 
@@ -129,7 +137,7 @@ const Detalle = (props) => {
     }
 
     const addManoObra = () => {
-        if ( props.manoObra.idEmpleado ) {
+        if ( props.manoObra.idEmpleado && props.manoObra.costo ) {
 
             let aux = props.fase.manoObra;
             const mismoProducto = aux.filter( item =>{ if (item.idEmpleado === props.manoObra.idEmpleado) return item });
@@ -178,7 +186,8 @@ const Detalle = (props) => {
         });     
         props.setFase({
             ...props.fase,
-            costoMaterial: acumulado
+            costoMaterial: acumulado,
+            costoTotal: acumulado + props.fase.costoManoObra
         }); 
     }
 
@@ -190,10 +199,31 @@ const Detalle = (props) => {
         });     
         props.setFase({
             ...props.fase,
-            costoManoObra: acumulado
+            costoManoObra: acumulado,
+            costoTotal: acumulado + props.fase.costoMaterial 
         }); 
     }
 
+    const addFase = () => {
+        if ( props.fase.nombre && props.fase.fechaInicio && props.fase.fechaFin) {
+            if (props.fase.materiales.length > 0 && props.fase.manoObra.length > 0) {
+                save();
+            } else {
+                toast.current.show({ severity: 'info', summary: 'Info', detail: "Debe de incluir al menos un material y empleado en la fase.", life: 3000 });
+            }
+        }
+    }
+
+    const save = async () => {
+        let resp = await Service.save(props.fase);
+        if ( resp.valid ){
+            props.list();
+            back();
+            props.toast.current.show({ severity: 'success', summary: 'Exitoso!', detail: 'Agregado Correctamente', life: 3000 });
+        } else {
+            props.toast.current.show({ severity: 'error', summary: 'Error!', detail: resp.msg, life: 3000 });
+        }
+    }
     return (
         <div className="grid crud-demo">
             <Toast ref={toast} />
@@ -290,8 +320,8 @@ const Detalle = (props) => {
                                     disabled
                                 />
                             </div>
-                            
                         </div>
+
 
                         
 
@@ -403,11 +433,7 @@ const Detalle = (props) => {
                                 <span className="p-inputgroup-addon"><i className="pi pi-dollar"></i></span>
                             </div>
                         </div>
-                        <div className="col-12 md:col-6">
-                            <div className="p-inputgroup">
-                                <Button  label="REALIZAR VENTA" className="p-button-success mr-16 mb-16"/*  onClick={addFactura} *//>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -432,7 +458,7 @@ const Detalle = (props) => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            {  submittedMaterial && !props.manoObra.idEmpleado && <small className="p-error">Empleado  es requerido.</small>}
+                            {  submittedManoObra && !props.manoObra.idEmpleado && <small className="p-error">Empleado  es requerido.</small>}
                         </div>
                     
                         <div className="col-12 md:col-6">
@@ -446,9 +472,10 @@ const Detalle = (props) => {
                                 variant="outlined"
                                 fullWidth
                             />
+                             {  submittedManoObra && !props.manoObra.costo && <small className="p-error">Costo  es requerido.</small>}
                         </div>
                     
-                    
+                                    
 
                         <div className="col-12 md:col-6">
                             <Button label="Agregar" className="p-button-outlined mr-2 mb-2" onClick={addManoObra}/>
@@ -473,10 +500,10 @@ const Detalle = (props) => {
                             <div className="p-inputgroup">
                                 <InputText
                                     type="number"
-                                    id="totalManoObra"
-                                    name="totalManoObra"
-                                    placeholder="totalManoObra"
-                                    value={ props.fase.totalManoObra }
+                                    id="costoManoObra"
+                                    name="costoManoObra"
+                                    placeholder="TOTAL"
+                                    value={ props.fase.costoManoObra }
                                     onChange={onInputChange}
                                     variant="outlined"
                                     fullWidth
@@ -489,6 +516,15 @@ const Detalle = (props) => {
                     </div>
                 </div>
 
+            </div>
+
+            <div className='col-10'></div>
+            <div className='col-2'>
+                <div className='card'>
+                    <div className="p-inputgroup">
+                        <Button  label="CREAR FASE" className="p-button-success mr-16 mb-16" onClick={addFase}/>
+                    </div>   
+                </div>
             </div>
 
             <div className="col-4">

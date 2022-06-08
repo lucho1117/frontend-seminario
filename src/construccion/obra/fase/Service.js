@@ -22,3 +22,8 @@ export async function deleteById(obj) {
     let respuesta = await axios.post(URL + `/fase/delete`, obj);
 	return respuesta.data;
 }
+
+export async function listByObra(obj) {
+    let respuesta = await axios.post(URL + `/fase/listByObra`, obj);
+	return respuesta.data;
+}
