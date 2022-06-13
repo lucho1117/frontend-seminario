@@ -65,6 +65,10 @@ import Obra from './construccion/obra/Obra';
 
 import TipoMateriaPrima from './plantas/tipoMateriaPrima/TipoMateriaPrima';
 import TipoMaquinaria from './plantas/tipoMaquinaria/TipoMaquinaria';
+import MateriaPrima from './plantas/materiaPrima/MateriaPrima';
+import Maquinaria from './plantas/maquinaria/Maquinaria';
+
+import Empleado from './user/empleado/Empleado';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -181,8 +185,9 @@ const App = () => {
         {
             label: 'Inicio',
             items: [{
-                label: 'Principal', icon: 'pi pi-fw pi-home', to: '/'
-            }]
+                label: 'Principal', icon: 'pi pi-fw pi-home', to: '/', },
+                {label: 'Empleados', icon: 'pi pi-fw pi-users', to: '/empleado'},
+            ]
         },
         {
             label: 'MODULOS', icon: 'pi pi-fw pi-search',
@@ -221,7 +226,9 @@ const App = () => {
                 {
                     label: 'PLANTAS', icon: 'pi pi-fw pi-th-large',
                     items: [
+                        {label: 'Materias Primas', icon: 'pi pi-fw pi-building', to: '/materiaPrima'},
                         {label: 'Tipo Materia Prima', icon: 'pi pi-fw pi-bookmark', to: '/pi-sitemap'},
+                        {label: 'Maquinaria', icon: 'pi pi-fw pi-car', to: '/maquinaria'},
                         {label: 'Tipo Maquinaria', icon: 'pi pi-fw pi-car', to: '/tipoMaquinaria'},
                     ]
                 },
@@ -269,7 +276,7 @@ const App = () => {
                 { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
             ]
         },
-        {
+        /* {
             label: 'MENU DESPLEGABLE', icon: 'pi pi-fw pi-search',
             items: [
                 {
@@ -294,7 +301,7 @@ const App = () => {
                 }
                 
             ]
-        },
+        }, */
         {
             label: 'Get Started',
             items: [
@@ -367,8 +374,11 @@ const App = () => {
 
                     <Route path="/tipoMaquinaria" component={TipoMaquinaria}/>
                     <Route path="/tipoMateriaPrima" component={TipoMateriaPrima}/>
+                    <Route path="/materiaPrima" component={MateriaPrima}/>
+                    <Route path="/maquinaria" component={Maquinaria}/>
 
 
+                    <Route path="/empleado" component={Empleado}/>
 
 
                     <Route path="/formlayout" component={FormLayoutDemo} />
