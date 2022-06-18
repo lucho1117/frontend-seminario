@@ -22,7 +22,7 @@ const PrincipalVentas = () => {
                     <div className="col-12 md:col-6">
                         <div className="card card-w-title" onClick={directVenta}>
                             <div className="text-center">
-                                <img height="400" src="assets/demo/images/ventaProducto.jpeg" className="w-9 shadow-2 my-3 mx-0" />
+                                <img height="400" alt='' src="assets/demo/images/ventaProducto.jpeg" className="w-9 shadow-2 my-3 mx-0" />
                                 <div className="text-2xl font-bold">VENTA</div>
                             </div>
                         </div>
@@ -30,7 +30,7 @@ const PrincipalVentas = () => {
                     <div className="col-12 md:col-6">
                         <div className="card card-w-title">
                             <div className="text-center" onClick={directAlquiler}>
-                                <img height="400" src="assets/demo/images/alquiler.png" className="w-9 shadow-2 my-3 mx-0" />
+                                <img height="400" alt='' src="assets/demo/images/alquiler.png" className="w-9 shadow-2 my-3 mx-0" />
                                 <div className="text-2xl font-bold">ALQUILER</div>
                             </div>
                         </div>

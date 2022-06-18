@@ -34,6 +34,7 @@ const Cliente = (props) => {
   
     useEffect(() => {
       list();
+      // eslint-disable-next-line
     }, []);
     
 

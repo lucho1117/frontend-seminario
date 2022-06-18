@@ -11,17 +11,17 @@ import { InputText } from 'primereact/inputtext';
 import * as Service from "./Service";
 
 
-const Categoria = () => {
+const TipoMaquinaria = () => {
 
-    let formCategoria = {
+    let formTipoMaquinaria = {
         nombre: "",
         descripcion: "",
     };
 
-    const [categorias, setCategorias] = useState(null);
-    const [categoriaDialog, setCategoriaDialog] = useState(false);
-    const [deleteCategoriaDialog, setDeleteCategoriaDialog] = useState(false);
-    const [categoria, setCategoria] = useState(formCategoria);
+    const [tipoMaquinarias, setTipoMaquinarias] = useState(null);
+    const [tipoMaquinariaDialog, setTipoMaquinariaDialog] = useState(false);
+    const [deleteTipoMaquinariaDialog, setDeleteTipoMaquinariaDialog] = useState(false);
+    const [tipoMaquinaria, setTipoMaquinaria] = useState(formTipoMaquinaria);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -34,7 +34,7 @@ const Categoria = () => {
     const list = async()  => {
         let resp = await Service.list();
         if (resp.valid) {
-            setCategorias(resp.data);
+            setTipoMaquinarias(resp.data);
         } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
         }
@@ -42,23 +42,23 @@ const Categoria = () => {
 
 
     const openNew = () => {
-        setCategoria(formCategoria);
+        setTipoMaquinaria(formTipoMaquinaria);
         setSubmitted(false);
-        setCategoriaDialog(true);
+        setTipoMaquinariaDialog(true);
     }
 
     const hideDialog = () => {
         setSubmitted(false);
-        setCategoriaDialog(false);
+        setTipoMaquinariaDialog(false);
     }
 
-    const hideDeleteCategoriaDialog = () => {
-        setDeleteCategoriaDialog(false);
+    const hideDeleteTipoMaquinariaDialog = () => {
+        setDeleteTipoMaquinariaDialog(false);
     }
 
     const submit = () => {
-        if (categoria.nombre) {
-             if (categoria.idCategoria) {
+        if (tipoMaquinaria.nombre) {
+             if (tipoMaquinaria.idTipoMaquinaria) {
                  edit();
              } else {
                  save();
@@ -67,7 +67,7 @@ const Categoria = () => {
     }
 
     const save = async () => {
-        let resp = await Service.save(categoria);
+        let resp = await Service.save(tipoMaquinaria);
         if ( resp.valid ){
             list();
             hideDialog();
@@ -78,7 +78,7 @@ const Categoria = () => {
     }
 
     const edit = async () => {
-        let resp = await Service.update(categoria);
+        let resp = await Service.update(tipoMaquinaria);
         if ( resp.valid ){
             list();
             hideDialog();
@@ -90,21 +90,21 @@ const Categoria = () => {
 
 
 
-    const editcategoria = (categoria) => {
-        setCategoria({ ...categoria });
-        setCategoriaDialog(true);
+    const edittipoMaquinaria = (tipoMaquinaria) => {
+        setTipoMaquinaria({ ...tipoMaquinaria });
+        setTipoMaquinariaDialog(true);
     }
 
-    const confirmDeletecategoria = (categoria) => {
-        setCategoria(categoria);
-        setDeleteCategoriaDialog(true);
+    const confirmDeletetipoMaquinaria = (tipoMaquinaria) => {
+        setTipoMaquinaria(tipoMaquinaria);
+        setDeleteTipoMaquinariaDialog(true);
     }
 
-    const deletecategoria = async () => {
-        let resp = await Service.deleteById(categoria);
+    const deletetipoMaquinaria = async () => {
+        let resp = await Service.deleteById(tipoMaquinaria);
         if ( resp.valid ) {
             list();
-            setDeleteCategoriaDialog(false);
+            setDeleteTipoMaquinariaDialog(false);
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Eliminado correctamente', life: 3000 });
         } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
@@ -116,8 +116,8 @@ const Categoria = () => {
 
     const onInputChange = (e) => {
         const { value, name } = e.target;
-        setCategoria({
-            ...categoria,
+        setTipoMaquinaria({
+            ...tipoMaquinaria,
             [name]: value,
         });
         setSubmitted(true);
@@ -138,7 +138,7 @@ const Categoria = () => {
         return (
             <>
                 <span className="p-column-title">ID</span>
-                {rowData.idCategoria}
+                {rowData.idTipoMaquinaria}
             </>
         );
     }
@@ -167,15 +167,15 @@ const Categoria = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editcategoria(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeletecategoria(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => edittipoMaquinaria(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeletetipoMaquinaria(rowData)} />
             </div>
         );
     }
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Categorias de Producto</h5>
+            <h5 className="m-0">Tipo de Maquinarias</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
@@ -183,16 +183,16 @@ const Categoria = () => {
         </div>
     );
 
-    const categoriaDialogFooter = (
+    const tipoMaquinariaDialogFooter = (
         <>
             <Button label="CANCELAR" icon="pi pi-times" className="p-button-rounded p-button-danger p-button-text" onClick={hideDialog} />
-            <Button label={categoria.idCategoria ? "EDITAR" : "GUARDAR"} icon="pi pi-check" className="p-button-rounded p-button-info p-button-text" onClick={submit} />
+            <Button label={tipoMaquinaria.idTipoMaquinaria ? "EDITAR" : "GUARDAR"} icon="pi pi-check" className="p-button-rounded p-button-info p-button-text" onClick={submit} />
         </>
     );
-    const deleteCategoriaDialogFooter = (
+    const deleteTipoMaquinariaDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteCategoriaDialog} />
-            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deletecategoria} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteTipoMaquinariaDialog} />
+            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deletetipoMaquinaria} />
         </>
     );
 
@@ -203,38 +203,38 @@ const Categoria = () => {
                     <Toast ref={toast} />
                     <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={categorias}
+                    <DataTable ref={dt} value={tipoMaquinarias}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} categorias"
-                        globalFilter={globalFilter} emptyMessage="No categorias found." header={header} responsiveLayout="scroll">
+                        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} tipoMaquinarias"
+                        globalFilter={globalFilter} emptyMessage="No tipoMaquinarias found." header={header} responsiveLayout="scroll">
 
-                        <Column field="idCategoria" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
+                        <Column field="idTipoMaquinaria" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
                         <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate} headerStyle={{ width: '35%', minWidth: '10rem' }}></Column>
                         <Column field="descripcion" header="Descripción" body={descripcionBodyTemplate} sortable headerStyle={{ width: '35%', minWidth: '8rem' }}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={categoriaDialog} style={{ width: '450px' }} header={categoria.idCategoria ? "EDITAR" : "NUEVO"} modal className="p-fluid" footer={categoriaDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={tipoMaquinariaDialog} style={{ width: '450px' }} header={tipoMaquinaria.idTipoMaquinaria ? "EDITAR" : "NUEVO"} modal className="p-fluid" footer={tipoMaquinariaDialogFooter} onHide={hideDialog}>
                         <div className="field">
                             <label htmlFor="nombre">Nombre</label>
                             <InputText 
                                 id="nombre" 
                                 name="nombre"
-                                value={categoria.nombre} 
+                                value={tipoMaquinaria.nombre} 
                                 onChange={onInputChange} 
                                 required 
                                 autoFocus 
-                                className={classNames({ 'p-error': submitted && !categoria.nombre })} 
+                                className={classNames({ 'p-error': submitted && !tipoMaquinaria.nombre })} 
                             />
-                            { submitted &&  !categoria.nombre && <small className="p-error">Nombre es requerido.</small>}
+                            { submitted &&  !tipoMaquinaria.nombre && <small className="p-error">Nombre es requerido.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="descripcion">Descripción</label>
                             <InputTextarea 
                                 id="descripcion" 
                                 name="descripcion"
-                                value={categoria.descripcion} 
+                                value={tipoMaquinaria.descripcion} 
                                 onChange={onInputChange} 
                                 required 
                                 rows={3} 
@@ -244,10 +244,10 @@ const Categoria = () => {
 
                     </Dialog>
 
-                    <Dialog visible={deleteCategoriaDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteCategoriaDialogFooter} onHide={hideDeleteCategoriaDialog}>
+                    <Dialog visible={deleteTipoMaquinariaDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteTipoMaquinariaDialogFooter} onHide={hideDeleteTipoMaquinariaDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {categoria && <span>Desea eliminar este item: <b>{categoria.nombre}</b>?</span>}
+                            {tipoMaquinaria && <span>Desea eliminar este item: <b>{tipoMaquinaria.nombre}</b>?</span>}
                         </div>
                     </Dialog>
 
@@ -257,4 +257,4 @@ const Categoria = () => {
     )
 }
 
-export default Categoria
+export default TipoMaquinaria;

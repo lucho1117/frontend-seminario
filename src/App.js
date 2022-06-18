@@ -53,10 +53,22 @@ import PrincipalVentas from './ventas/PrincipalVentas';
 
 
 import TipoVehiculo from './transportes/tipoVehiculo/TipoVehiculo';
-import Cargamento from './transportes/cargamento/Cargamento';
 import Vehiculo from './transportes/vehiculo/Vehiculo';
 import Viaje from './transportes/viaje/Viaje';
 import ClienteTransporte from './transportes/clientes/Cliente'; 
+import Asignacion from './transportes/asignacion/Asignacion';
+
+import TipoObra from './construccion/tipoObra/TipoObra';
+import TipoMaterial from './construccion/tipoMaterial/TipoMaterial';
+import Material from './construccion/material/Material';
+import Obra from './construccion/obra/Obra';
+
+import TipoMateriaPrima from './plantas/tipoMateriaPrima/TipoMateriaPrima';
+import TipoMaquinaria from './plantas/tipoMaquinaria/TipoMaquinaria';
+import MateriaPrima from './plantas/materiaPrima/MateriaPrima';
+import Maquinaria from './plantas/maquinaria/Maquinaria';
+
+import Empleado from './user/empleado/Empleado';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -171,46 +183,53 @@ const App = () => {
 
     const menu = [
         {
-            label: 'Home',
+            label: 'Inicio',
             items: [{
-                label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'
-            }]
+                label: 'Principal', icon: 'pi pi-fw pi-home', to: '/', },
+                {label: 'Empleados', icon: 'pi pi-fw pi-users', to: '/empleado'},
+            ]
         },
         {
             label: 'MODULOS', icon: 'pi pi-fw pi-search',
             items: [
                 {
-                    label: 'VENTAS', icon: 'pi pi-fw pi-bookmark',
+                    label: 'VENTAS', icon: 'pi pi-fw pi-shopping-cart',
                     items: [
-                        {label: 'Principal', icon: 'pi pi-fw pi-bookmark', to: '/principalVenta'},
-                        {label: 'Categorias', icon: 'pi pi-fw pi-bookmark' , to: '/categoria' },
-                        {label: 'Productos', icon: 'pi pi-fw pi-bookmark', to: '/producto'},
-                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/ventas'},
-                        {label: 'Tipo Alquiler', icon: 'pi pi-fw pi-bookmark', to: '/tipoAlquiler'}
+                        {label: 'Principal', icon: 'pi pi-fw pi-tags', to: '/principalVenta'},
+                        {label: 'Categorias', icon: 'pi pi-fw pi-sitemap' , to: '/categoria' },
+                        {label: 'Productos', icon: 'pi pi-fw pi-table', to: '/producto'},
+                        {label: 'Tipo Alquiler', icon: 'pi pi-fw pi-th-large', to: '/tipoAlquiler'},
+                        {label: 'Clientes', icon: 'pi pi-fw pi-users', to: '/cliente/ventas'},
                     ]
                 },
                 {
-                    label: 'TRASNPORTE', icon: 'pi pi-fw pi-bookmark',
+                    label: 'TRASNPORTE', icon: 'pi pi-fw pi-car',
                     items: [
-                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/clienteTransporte'},
-                        {label: 'Viajes', icon: 'pi pi-fw pi-bookmark', to: '/viaje'},
-                        {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/tipoVehiculo'},
-                        {label: 'Cargamento', icon: 'pi pi-fw pi-bookmark', to: '/cargamento'},
-                        {label: 'Vehiculo', icon: 'pi pi-fw pi-bookmark', to: '/vehiculo'}
+                        {label: 'Asignaciones', icon: 'pi pi-fw pi-tag', to: '/asignacion'},
+                        {label: 'Viajes', icon: 'pi pi-fw pi-send', to: '/viaje'},
+                        {label: 'Vehiculo', icon: 'pi pi-fw pi-car', to: '/vehiculo'},
+                        {label: 'Tipo Vehiculo', icon: 'pi pi-fw pi-clone', to: '/tipoVehiculo'},
+                        {label: 'Clientes', icon: 'pi pi-fw pi-users', to: '/clienteTransporte'}
                     ]
                 },
                 {
-                    label: 'CONSTRUCCION', icon: 'pi pi-fw pi-bookmark',
+                    label: 'CONSTRUCCION', icon: 'pi pi-fw pi-building',
                     items: [
-                        {label: 'Clientes', icon: 'pi pi-fw pi-bookmark', to: '/cliente/construccion'}
+                        {label: 'Clientes', icon: 'pi pi-fw pi-users', to: '/cliente/construccion'},
+                        {label: 'Obras', icon: 'pi pi-fw pi-building', to: '/obra'},
+                        {label: 'Materiales', icon: 'pi pi-fw pi-briefcase', to: '/material'},
+                        {label: 'Tipo Obras', icon: 'pi pi-fw pi-box', to: '/tipoObra'},
+                        {label: 'Tipo Materiales', icon: 'pi pi-fw pi-sitemap', to: '/tipoMaterial'},
                     ]
                 },
                 
                 {
-                    label: 'PLANTAS', icon: 'pi pi-fw pi-bookmark',
+                    label: 'PLANTAS', icon: 'pi pi-fw pi-th-large',
                     items: [
-                        {label: 'Item 1', icon: 'pi pi-fw pi-bookmark'},
-                        {label: 'Item 2', icon: 'pi pi-fw pi-bookmark'}
+                        {label: 'Materias Primas', icon: 'pi pi-fw pi-building', to: '/materiaPrima'},
+                        {label: 'Tipo Materia Prima', icon: 'pi pi-fw pi-bookmark', to: '/pi-sitemap'},
+                        {label: 'Maquinaria', icon: 'pi pi-fw pi-car', to: '/maquinaria'},
+                        {label: 'Tipo Maquinaria', icon: 'pi pi-fw pi-car', to: '/tipoMaquinaria'},
                     ]
                 },
             ]
@@ -257,7 +276,7 @@ const App = () => {
                 { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
             ]
         },
-        {
+        /* {
             label: 'MENU DESPLEGABLE', icon: 'pi pi-fw pi-search',
             items: [
                 {
@@ -282,7 +301,7 @@ const App = () => {
                 }
                 
             ]
-        },
+        }, */
         {
             label: 'Get Started',
             items: [
@@ -342,12 +361,24 @@ const App = () => {
                     <Route path="/principalVenta" component={PrincipalVentas} />
 
                     <Route path="/tipoVehiculo" component={TipoVehiculo}/>
-                    <Route path="/cargamento" component={Cargamento}/>
                     <Route path="/vehiculo" component={Vehiculo}/>
                     <Route path="/viaje" component={Viaje}/>
                     <Route path="/clienteTransporte" component={ClienteTransporte}/>
+                    <Route path="/asignacion" component={Asignacion}/>
+
+                    <Route path="/tipoObra" component={TipoObra}/>
+                    <Route path="/tipoMaterial" component={TipoMaterial}/>
+                    <Route path="/material" component={Material}/>
+                    <Route path="/obra" component={Obra}/>
 
 
+                    <Route path="/tipoMaquinaria" component={TipoMaquinaria}/>
+                    <Route path="/tipoMateriaPrima" component={TipoMateriaPrima}/>
+                    <Route path="/materiaPrima" component={MateriaPrima}/>
+                    <Route path="/maquinaria" component={Maquinaria}/>
+
+
+                    <Route path="/empleado" component={Empleado}/>
 
 
                     <Route path="/formlayout" component={FormLayoutDemo} />

@@ -190,6 +190,10 @@ const Venta = (props) => {
 
     }
 
+    const hideDeleteFacturaDialog = () => {
+        setDeleteFacturaDialog(false);
+    }
+    
     const deleteFacturaDialogFooter = (
         <>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteFacturaDialog} />
@@ -197,9 +201,6 @@ const Venta = (props) => {
         </>
     );
 
-    const hideDeleteFacturaDialog = () => {
-        setDeleteFacturaDialog(false);
-    }
    
     const hideDialog = () => {
         setFacturaDialog(false);

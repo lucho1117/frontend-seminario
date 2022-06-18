@@ -93,7 +93,7 @@ const Viaje = () => {
     }
 
     const submit = () => {
-        if (viaje.idCargamento && viaje.idCliente && viaje.origen && viaje.destino && viaje.kilometros && viaje.toneladas ) {
+        if (viaje.idCargamento && viaje.idCliente && viaje.origen && viaje.destino && viaje.kilometros && viaje.toneladas && viaje.precio ) {
              if (viaje.idViaje) {
                  edit();
              } else {
@@ -220,14 +220,6 @@ const Viaje = () => {
         );
     }
 
-    const kilometrosBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Kilometros</span>
-                {rowData.kilometros}
-            </>
-        );
-    }
 
     const toneladasBodyTemplate = (rowData) => {
         return (
@@ -247,13 +239,28 @@ const Viaje = () => {
         );
     }
 
+    const estadoBodyTemplate = (rowData) => {
+        return (
+            <>
+                <span className="p-column-title">Estado</span>
+                {rowData.estado === 1 ? "NO ASIGNADO" : rowData.estado === 2 ? "ASIGNADO" : "COMPLETADO"}
+            </>
+        );
+    }
+
 
 
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editViaje(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteViaje(rowData)} />
+                {
+                    rowData.estado === 1 ? (
+                        <>
+                        <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editViaje(rowData)} />
+                        <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteViaje(rowData)} />
+                        </>
+                    ):null
+                }
             </div>
         );
     }
@@ -299,9 +306,9 @@ const Viaje = () => {
                         <Column field="cliente" header="Cliente" body={clienteBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
                         <Column field="trayecto" header="Trayecto" sortable body={trayectoBodyTemplate} headerStyle={{ width: '20%', minWidth: '10rem' }}></Column>
                         <Column field="duracion" header="Duración" sortable body={fechaBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
-                        <Column field="kilometros" header="Kilometros" sortable body={kilometrosBodyTemplate} headerStyle={{ width: '5%', minWidth: '10rem' }}></Column>
                         <Column field="toneladas" header="Toneladas" sortable body={toneladasBodyTemplate} headerStyle={{ width: '5%', minWidth: '10rem' }}></Column>
                         <Column field="precio" header="Precio" sortable body={precioBodyTemplate} headerStyle={{ width: '10%', minWidth: '10rem' }}></Column>
+                        <Column field="estado" header="Estado" sortable body={estadoBodyTemplate} headerStyle={{ width: '5%', minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
@@ -322,7 +329,7 @@ const Viaje = () => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            { submitted &&  !viaje.idCargamento && <small className="p-invalid">Cargamento es requerido.</small>}
+                            { submitted &&  !viaje.idCargamento && <small className="p-error">Cargamento es requerido.</small>}
                         </div>
 
                         <div className="field">
@@ -340,7 +347,7 @@ const Viaje = () => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                            { submitted &&  !viaje.idCliente && <small className="p-invalid">Cliente es requerido.</small>}
+                            { submitted &&  !viaje.idCliente && <small className="p-error">Cliente es requerido.</small>}
                         </div>
 
                         <div className="field">
@@ -352,9 +359,9 @@ const Viaje = () => {
                                 onChange={onInputChange} 
                                 required 
                                 fullWidth
-                                className={classNames({ 'p-invalid': submitted && !viaje.origen })} 
+                                className={classNames({ 'p-error': submitted && !viaje.origen })} 
                             />
-                            { submitted &&  !viaje.origen && <small className="p-invalid">Origen es requerido.</small>}
+                            { submitted &&  !viaje.origen && <small className="p-error">Origen es requerido.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="origen">Destino*</label>
@@ -365,9 +372,9 @@ const Viaje = () => {
                                 onChange={onInputChange} 
                                 required 
                                 fullWidth
-                                className={classNames({ 'p-invalid': submitted && !viaje.destino })} 
+                                className={classNames({ 'p-error': submitted && !viaje.destino })} 
                             />
-                            { submitted &&  !viaje.destino && <small className="p-invalid">Destino es requerido.</small>}
+                            { submitted &&  !viaje.destino && <small className="p-error">Destino es requerido.</small>}
                         </div>
                         <div className="formgrid grid">
                             <div className="field col">
@@ -380,7 +387,7 @@ const Viaje = () => {
                                     onChange={onInputChange} 
                                     required 
                                     fullWidth
-                                    className={classNames({ 'p-invalid': submitted && !viaje.fechaInicio })} 
+                                    className={classNames({ 'p-error': submitted && !viaje.fechaInicio })} 
                                 />
                             </div>
                             <div className="field col">
@@ -393,7 +400,7 @@ const Viaje = () => {
                                     onChange={onInputChange} 
                                     required 
                                     fullWidth
-                                    className={classNames({ 'p-invalid': submitted && !viaje.fechaFin })} 
+                                    className={classNames({ 'p-error': submitted && !viaje.fechaFin })} 
                                 />
                             </div>
                         </div>
@@ -409,9 +416,9 @@ const Viaje = () => {
                                     onChange={onInputChange} 
                                     required 
                                     fullWidth
-                                    className={classNames({ 'p-invalid': submitted && !viaje.kilometros })} 
+                                    className={classNames({ 'p-error': submitted && !viaje.kilometros })} 
                                 />
-                                { submitted &&  !viaje.kilometros && <small className="p-invalid">Kilometros es requerido.</small>}
+                                { submitted &&  !viaje.kilometros && <small className="p-error">Kilometros es requerido.</small>}
                             </div>
                             <div className="field col">
                                 <label htmlFor="origen">Toneladas</label>
@@ -423,26 +430,26 @@ const Viaje = () => {
                                     onChange={onInputChange} 
                                     required 
                                     fullWidth
-                                    className={classNames({ 'p-invalid': submitted && !viaje.toneladas })} 
+                                    className={classNames({ 'p-error': submitted && !viaje.toneladas })} 
                                 />
-                                { submitted &&  !viaje.toneladas && <small className="p-invalid">Toneladas es requerido.</small>}
+                                { submitted &&  !viaje.toneladas && <small className="p-error">Toneladas es requerido.</small>}
                             </div>
                         </div>
                         <div className="field">
                             <label htmlFor="origen">Precio</label>
                             <TextField 
                                 id="precio" 
+                                type="number"
                                 name="precio"
                                 value={viaje.precio} 
                                 onChange={onInputChange} 
                                 required 
                                 fullWidth
-                                disabled
-                                className={classNames({ 'p-invalid': submitted && !viaje.precio })} 
+                                className={classNames({ 'p-error': submitted && !viaje.precio })} 
                             />
+                            { submitted &&  !viaje.precio && <small className="p-error">Precio es requerido.</small>}
                         </div>
 
-                        <pre>{JSON.stringify(viaje, null, 2)}</pre>
                     </Dialog>
 
                     <Dialog visible={deleteViajeDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteViajeDialogFooter} onHide={hideDeleteViajeDialog}>

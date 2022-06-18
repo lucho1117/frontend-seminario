@@ -11,17 +11,17 @@ import { InputText } from 'primereact/inputtext';
 import * as Service from "./Service";
 
 
-const Categoria = () => {
+const TipoObra = () => {
 
-    let formCategoria = {
+    let formTipoObra = {
         nombre: "",
         descripcion: "",
     };
 
-    const [categorias, setCategorias] = useState(null);
-    const [categoriaDialog, setCategoriaDialog] = useState(false);
-    const [deleteCategoriaDialog, setDeleteCategoriaDialog] = useState(false);
-    const [categoria, setCategoria] = useState(formCategoria);
+    const [tipoObras, setTipoObras] = useState(null);
+    const [tipoObraDialog, setTipoObraDialog] = useState(false);
+    const [deletetipoTipoObraDialog, setDeletetipoTipoObraDialog] = useState(false);
+    const [tipoObra, setTipoObra] = useState(formTipoObra);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -34,7 +34,7 @@ const Categoria = () => {
     const list = async()  => {
         let resp = await Service.list();
         if (resp.valid) {
-            setCategorias(resp.data);
+            setTipoObras(resp.data);
         } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
         }
@@ -42,23 +42,23 @@ const Categoria = () => {
 
 
     const openNew = () => {
-        setCategoria(formCategoria);
+        setTipoObra(formTipoObra);
         setSubmitted(false);
-        setCategoriaDialog(true);
+        setTipoObraDialog(true);
     }
 
     const hideDialog = () => {
         setSubmitted(false);
-        setCategoriaDialog(false);
+        setTipoObraDialog(false);
     }
 
-    const hideDeleteCategoriaDialog = () => {
-        setDeleteCategoriaDialog(false);
+    const hideDeletetipoTipoObraDialog = () => {
+        setDeletetipoTipoObraDialog(false);
     }
 
     const submit = () => {
-        if (categoria.nombre) {
-             if (categoria.idCategoria) {
+        if (tipoObra.nombre) {
+             if (tipoObra.idTipoObra) {
                  edit();
              } else {
                  save();
@@ -67,7 +67,7 @@ const Categoria = () => {
     }
 
     const save = async () => {
-        let resp = await Service.save(categoria);
+        let resp = await Service.save(tipoObra);
         if ( resp.valid ){
             list();
             hideDialog();
@@ -78,7 +78,7 @@ const Categoria = () => {
     }
 
     const edit = async () => {
-        let resp = await Service.update(categoria);
+        let resp = await Service.update(tipoObra);
         if ( resp.valid ){
             list();
             hideDialog();
@@ -90,21 +90,21 @@ const Categoria = () => {
 
 
 
-    const editcategoria = (categoria) => {
-        setCategoria({ ...categoria });
-        setCategoriaDialog(true);
+    const edittipoObra = (tipoObra) => {
+        setTipoObra({ ...tipoObra });
+        setTipoObraDialog(true);
     }
 
-    const confirmDeletecategoria = (categoria) => {
-        setCategoria(categoria);
-        setDeleteCategoriaDialog(true);
+    const confirmDeletetipoObra = (tipoObra) => {
+        setTipoObra(tipoObra);
+        setDeletetipoTipoObraDialog(true);
     }
 
-    const deletecategoria = async () => {
-        let resp = await Service.deleteById(categoria);
+    const deletetipoObra = async () => {
+        let resp = await Service.deleteById(tipoObra);
         if ( resp.valid ) {
             list();
-            setDeleteCategoriaDialog(false);
+            setDeletetipoTipoObraDialog(false);
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Eliminado correctamente', life: 3000 });
         } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
@@ -116,8 +116,8 @@ const Categoria = () => {
 
     const onInputChange = (e) => {
         const { value, name } = e.target;
-        setCategoria({
-            ...categoria,
+        setTipoObra({
+            ...tipoObra,
             [name]: value,
         });
         setSubmitted(true);
@@ -138,7 +138,7 @@ const Categoria = () => {
         return (
             <>
                 <span className="p-column-title">ID</span>
-                {rowData.idCategoria}
+                {rowData.idTipoObra}
             </>
         );
     }
@@ -167,15 +167,15 @@ const Categoria = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editcategoria(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeletecategoria(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => edittipoObra(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeletetipoObra(rowData)} />
             </div>
         );
     }
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Categorias de Producto</h5>
+            <h5 className="m-0">Tipo de obras</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
@@ -183,16 +183,16 @@ const Categoria = () => {
         </div>
     );
 
-    const categoriaDialogFooter = (
+    const tipoObraDialogFooter = (
         <>
             <Button label="CANCELAR" icon="pi pi-times" className="p-button-rounded p-button-danger p-button-text" onClick={hideDialog} />
-            <Button label={categoria.idCategoria ? "EDITAR" : "GUARDAR"} icon="pi pi-check" className="p-button-rounded p-button-info p-button-text" onClick={submit} />
+            <Button label={tipoObra.idTipoObra ? "EDITAR" : "GUARDAR"} icon="pi pi-check" className="p-button-rounded p-button-info p-button-text" onClick={submit} />
         </>
     );
-    const deleteCategoriaDialogFooter = (
+    const deletetipoTipoObraDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteCategoriaDialog} />
-            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deletecategoria} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeletetipoTipoObraDialog} />
+            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deletetipoObra} />
         </>
     );
 
@@ -203,38 +203,38 @@ const Categoria = () => {
                     <Toast ref={toast} />
                     <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={categorias}
+                    <DataTable ref={dt} value={tipoObras}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} categorias"
-                        globalFilter={globalFilter} emptyMessage="No categorias found." header={header} responsiveLayout="scroll">
+                        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} tipoObras"
+                        globalFilter={globalFilter} emptyMessage="No tipoObras found." header={header} responsiveLayout="scroll">
 
-                        <Column field="idCategoria" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
+                        <Column field="idTipoObra" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
                         <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate} headerStyle={{ width: '35%', minWidth: '10rem' }}></Column>
                         <Column field="descripcion" header="Descripción" body={descripcionBodyTemplate} sortable headerStyle={{ width: '35%', minWidth: '8rem' }}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={categoriaDialog} style={{ width: '450px' }} header={categoria.idCategoria ? "EDITAR" : "NUEVO"} modal className="p-fluid" footer={categoriaDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={tipoObraDialog} style={{ width: '450px' }} header={tipoObra.idTipoObra ? "EDITAR" : "NUEVO"} modal className="p-fluid" footer={tipoObraDialogFooter} onHide={hideDialog}>
                         <div className="field">
                             <label htmlFor="nombre">Nombre</label>
                             <InputText 
                                 id="nombre" 
                                 name="nombre"
-                                value={categoria.nombre} 
+                                value={tipoObra.nombre} 
                                 onChange={onInputChange} 
                                 required 
                                 autoFocus 
-                                className={classNames({ 'p-error': submitted && !categoria.nombre })} 
+                                className={classNames({ 'p-error': submitted && !tipoObra.nombre })} 
                             />
-                            { submitted &&  !categoria.nombre && <small className="p-error">Nombre es requerido.</small>}
+                            { submitted &&  !tipoObra.nombre && <small className="p-error">Nombre es requerido.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="descripcion">Descripción</label>
                             <InputTextarea 
                                 id="descripcion" 
                                 name="descripcion"
-                                value={categoria.descripcion} 
+                                value={tipoObra.descripcion} 
                                 onChange={onInputChange} 
                                 required 
                                 rows={3} 
@@ -244,10 +244,10 @@ const Categoria = () => {
 
                     </Dialog>
 
-                    <Dialog visible={deleteCategoriaDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteCategoriaDialogFooter} onHide={hideDeleteCategoriaDialog}>
+                    <Dialog visible={deletetipoTipoObraDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deletetipoTipoObraDialogFooter} onHide={hideDeletetipoTipoObraDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {categoria && <span>Desea eliminar este item: <b>{categoria.nombre}</b>?</span>}
+                            {tipoObra && <span>Desea eliminar este item: <b>{tipoObra.nombre}</b>?</span>}
                         </div>
                     </Dialog>
 
@@ -257,4 +257,4 @@ const Categoria = () => {
     )
 }
 
-export default Categoria
+export default TipoObra;

@@ -11,17 +11,17 @@ import { InputText } from 'primereact/inputtext';
 import * as Service from "./Service";
 
 
-const Categoria = () => {
+const TipoMateriaPrima = () => {
 
-    let formCategoria = {
+    let formTipoMateriaPrima = {
         nombre: "",
         descripcion: "",
     };
 
-    const [categorias, setCategorias] = useState(null);
-    const [categoriaDialog, setCategoriaDialog] = useState(false);
-    const [deleteCategoriaDialog, setDeleteCategoriaDialog] = useState(false);
-    const [categoria, setCategoria] = useState(formCategoria);
+    const [tipoMateriaPrimas, setTipoMateriaPrimas] = useState(null);
+    const [tipoMateriaPrimaDialog, setTipoMateriaPrimaDialog] = useState(false);
+    const [deletetipoMateriaPrimaDialog, setDeletetipoMateriaPrimaDialog] = useState(false);
+    const [tipoMateriaPrima, setTipoMateriaPrima] = useState(formTipoMateriaPrima);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -34,7 +34,7 @@ const Categoria = () => {
     const list = async()  => {
         let resp = await Service.list();
         if (resp.valid) {
-            setCategorias(resp.data);
+            setTipoMateriaPrimas(resp.data);
         } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
         }
@@ -42,23 +42,23 @@ const Categoria = () => {
 
 
     const openNew = () => {
-        setCategoria(formCategoria);
+        setTipoMateriaPrima(formTipoMateriaPrima);
         setSubmitted(false);
-        setCategoriaDialog(true);
+        setTipoMateriaPrimaDialog(true);
     }
 
     const hideDialog = () => {
         setSubmitted(false);
-        setCategoriaDialog(false);
+        setTipoMateriaPrimaDialog(false);
     }
 
-    const hideDeleteCategoriaDialog = () => {
-        setDeleteCategoriaDialog(false);
+    const hideDeletetipoMateriaPrimaDialog = () => {
+        setDeletetipoMateriaPrimaDialog(false);
     }
 
     const submit = () => {
-        if (categoria.nombre) {
-             if (categoria.idCategoria) {
+        if (tipoMateriaPrima.nombre) {
+             if (tipoMateriaPrima.idTipoMateriaPrima) {
                  edit();
              } else {
                  save();
@@ -67,7 +67,7 @@ const Categoria = () => {
     }
 
     const save = async () => {
-        let resp = await Service.save(categoria);
+        let resp = await Service.save(tipoMateriaPrima);
         if ( resp.valid ){
             list();
             hideDialog();
@@ -78,7 +78,7 @@ const Categoria = () => {
     }
 
     const edit = async () => {
-        let resp = await Service.update(categoria);
+        let resp = await Service.update(tipoMateriaPrima);
         if ( resp.valid ){
             list();
             hideDialog();
@@ -90,21 +90,21 @@ const Categoria = () => {
 
 
 
-    const editcategoria = (categoria) => {
-        setCategoria({ ...categoria });
-        setCategoriaDialog(true);
+    const edittipoMateriaPrima = (tipoMateriaPrima) => {
+        setTipoMateriaPrima({ ...tipoMateriaPrima });
+        setTipoMateriaPrimaDialog(true);
     }
 
-    const confirmDeletecategoria = (categoria) => {
-        setCategoria(categoria);
-        setDeleteCategoriaDialog(true);
+    const confirmDeletetipoMateriaPrima = (tipoMateriaPrima) => {
+        setTipoMateriaPrima(tipoMateriaPrima);
+        setDeletetipoMateriaPrimaDialog(true);
     }
 
-    const deletecategoria = async () => {
-        let resp = await Service.deleteById(categoria);
+    const deletetipoMateriaPrima = async () => {
+        let resp = await Service.deleteById(tipoMateriaPrima);
         if ( resp.valid ) {
             list();
-            setDeleteCategoriaDialog(false);
+            setDeletetipoMateriaPrimaDialog(false);
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Eliminado correctamente', life: 3000 });
         } else {
             toast.current.show({ severity: 'error', summary: 'Error', detail: resp.msg, life: 3000 });
@@ -116,8 +116,8 @@ const Categoria = () => {
 
     const onInputChange = (e) => {
         const { value, name } = e.target;
-        setCategoria({
-            ...categoria,
+        setTipoMateriaPrima({
+            ...tipoMateriaPrima,
             [name]: value,
         });
         setSubmitted(true);
@@ -138,7 +138,7 @@ const Categoria = () => {
         return (
             <>
                 <span className="p-column-title">ID</span>
-                {rowData.idCategoria}
+                {rowData.idTipoMateriaPrima}
             </>
         );
     }
@@ -167,15 +167,15 @@ const Categoria = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => editcategoria(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeletecategoria(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-warning mr-2" onClick={() => edittipoMateriaPrima(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeletetipoMateriaPrima(rowData)} />
             </div>
         );
     }
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Categorias de Producto</h5>
+            <h5 className="m-0">Tipos de Materia Prima</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
@@ -183,16 +183,16 @@ const Categoria = () => {
         </div>
     );
 
-    const categoriaDialogFooter = (
+    const tipoMateriaPrimaDialogFooter = (
         <>
             <Button label="CANCELAR" icon="pi pi-times" className="p-button-rounded p-button-danger p-button-text" onClick={hideDialog} />
-            <Button label={categoria.idCategoria ? "EDITAR" : "GUARDAR"} icon="pi pi-check" className="p-button-rounded p-button-info p-button-text" onClick={submit} />
+            <Button label={tipoMateriaPrima.idTipoMateriaPrima ? "EDITAR" : "GUARDAR"} icon="pi pi-check" className="p-button-rounded p-button-info p-button-text" onClick={submit} />
         </>
     );
-    const deleteCategoriaDialogFooter = (
+    const deletetipoMateriaPrimaDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteCategoriaDialog} />
-            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deletecategoria} />
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeletetipoMateriaPrimaDialog} />
+            <Button label="SI" icon="pi pi-check" className="p-button-text" onClick={deletetipoMateriaPrima} />
         </>
     );
 
@@ -203,38 +203,38 @@ const Categoria = () => {
                     <Toast ref={toast} />
                     <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
 
-                    <DataTable ref={dt} value={categorias}
+                    <DataTable ref={dt} value={tipoMateriaPrimas}
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} categorias"
-                        globalFilter={globalFilter} emptyMessage="No categorias found." header={header} responsiveLayout="scroll">
+                        currentPageReportTemplate="Mostrando {first} de {last} de {totalRecords} tipoMateriaPrimas"
+                        globalFilter={globalFilter} emptyMessage="No tipoMateriaPrimas found." header={header} responsiveLayout="scroll">
 
-                        <Column field="idCategoria" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
+                        <Column field="idTipoMateriaPrima" header="ID" sortable body={idBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
                         <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate} headerStyle={{ width: '35%', minWidth: '10rem' }}></Column>
                         <Column field="descripcion" header="Descripción" body={descripcionBodyTemplate} sortable headerStyle={{ width: '35%', minWidth: '8rem' }}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={categoriaDialog} style={{ width: '450px' }} header={categoria.idCategoria ? "EDITAR" : "NUEVO"} modal className="p-fluid" footer={categoriaDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={tipoMateriaPrimaDialog} style={{ width: '450px' }} header={tipoMateriaPrima.idTipoMateriaPrima ? "EDITAR" : "NUEVO"} modal className="p-fluid" footer={tipoMateriaPrimaDialogFooter} onHide={hideDialog}>
                         <div className="field">
                             <label htmlFor="nombre">Nombre</label>
                             <InputText 
                                 id="nombre" 
                                 name="nombre"
-                                value={categoria.nombre} 
+                                value={tipoMateriaPrima.nombre} 
                                 onChange={onInputChange} 
                                 required 
                                 autoFocus 
-                                className={classNames({ 'p-error': submitted && !categoria.nombre })} 
+                                className={classNames({ 'p-error': submitted && !tipoMateriaPrima.nombre })} 
                             />
-                            { submitted &&  !categoria.nombre && <small className="p-error">Nombre es requerido.</small>}
+                            { submitted &&  !tipoMateriaPrima.nombre && <small className="p-error">Nombre es requerido.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="descripcion">Descripción</label>
                             <InputTextarea 
                                 id="descripcion" 
                                 name="descripcion"
-                                value={categoria.descripcion} 
+                                value={tipoMateriaPrima.descripcion} 
                                 onChange={onInputChange} 
                                 required 
                                 rows={3} 
@@ -244,10 +244,10 @@ const Categoria = () => {
 
                     </Dialog>
 
-                    <Dialog visible={deleteCategoriaDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deleteCategoriaDialogFooter} onHide={hideDeleteCategoriaDialog}>
+                    <Dialog visible={deletetipoMateriaPrimaDialog} style={{ width: '450px' }} header="Confirmación" modal footer={deletetipoMateriaPrimaDialogFooter} onHide={hideDeletetipoMateriaPrimaDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {categoria && <span>Desea eliminar este item: <b>{categoria.nombre}</b>?</span>}
+                            {tipoMateriaPrima && <span>Desea eliminar este item: <b>{tipoMateriaPrima.nombre}</b>?</span>}
                         </div>
                     </Dialog>
 
@@ -257,4 +257,4 @@ const Categoria = () => {
     )
 }
 
-export default Categoria
+export default TipoMateriaPrima;

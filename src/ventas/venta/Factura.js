@@ -26,6 +26,7 @@ const Factura = (props) => {
             precio: producto.precio,
             producto: producto.nombre
         });
+        // eslint-disable-next-line
     }, [producto]);
 
     const addFactura = () => {
@@ -98,7 +99,7 @@ const Factura = (props) => {
         if ( props.formDetalle.idProducto && props.formDetalle.cantidad ) {
 
             let aux = props.formFactura.detalle;
-            const mismoProducto = aux.filter( item =>{ if (item.idProducto === props.formDetalle.idProducto) return item });
+            const mismoProducto = aux.filter( item => item.idProducto === props.formDetalle.idProducto);
             
             if (mismoProducto.length > 0 ) {
                 toast.current.show({ severity: 'info', summary: 'Info', detail: "No se puede agregar un mismo producto más de una vez.", life: 3000 });
@@ -137,7 +138,7 @@ const Factura = (props) => {
     const conteoTotal = () => {
         let aux = props.formFactura.detalle;  
         let acumulado = 0;
-        aux.map(item => {
+        aux.forEach(item => {
             acumulado = acumulado + item.total;
         });     
         props.setFormFactura({

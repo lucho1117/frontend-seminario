@@ -15,8 +15,6 @@ const ClienteTransporte = (props) => {
     let formCliente = {
         idNegocio: "",
         nombre: "",
-        apellido: "",
-        dpi: "",
         nit: "",
         direccion: "",
         email: "",
@@ -75,7 +73,7 @@ const ClienteTransporte = (props) => {
     }
 
     const submit = () => {
-        if (cliente.nombre && cliente.apellido && cliente.dpi && cliente.nit && cliente.direccion && cliente.email && cliente.idNegocio) {
+        if (cliente.nombre  && cliente.nit && cliente.direccion && cliente.email && cliente.idNegocio) {
              if (cliente.idCliente) {
                  edit();
              } else {
@@ -165,7 +163,7 @@ const ClienteTransporte = (props) => {
         return (
             <>
                 <span className="p-column-title">Nombre</span>
-                {rowData.nombre} {rowData.apellido}
+                {rowData.nombre} 
             </>
         );
     }
@@ -274,7 +272,7 @@ const ClienteTransporte = (props) => {
                         </div>
 
                         <div className="field">
-                            <label htmlFor="nombre">Nombre</label>
+                            <label htmlFor="nombre">Nombre Empresa</label>
                             <InputText 
                                 id="nombre" 
                                 name="nombre"
@@ -286,51 +284,22 @@ const ClienteTransporte = (props) => {
                             />
                             { submitted &&  !cliente.nombre && <small className="p-invalid">Nombre es requerido.</small>}
                         </div>
-                        <div className="field">
-                            <label htmlFor="apellido">Apellido</label>
-                            <InputText 
-                                id="apellido" 
-                                name="apellido"
-                                value={cliente.apellido} 
-                                onChange={onInputChange} 
-                                required 
-                                className={classNames({ 'p-invalid': submitted && !cliente.apellido })} 
+                        
+                        <div className='field'>
+                            <label htmlFor="quantity">NIT</label>
+                            <TextField
+                                type="number"
+                                id="nit"
+                                name="nit"
+                                value={ cliente.nit }
+                                onChange={onInputChange}
+                                variant="outlined"
+                                fullWidth
+                                required
+                                className="w-full"
                             />
-                            { submitted &&  !cliente.apellido && <small className="p-invalid">Apellido es requerido.</small>}
-                      
-                        </div>
+                            { submitted &&  !cliente.nit && <small className="p-invalid">Nit es requerido.</small>}
 
-                        <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="price">DPI</label>
-                                <TextField
-                                    type="number"
-                                    id="dpi"
-                                    name="dpi"
-                                    value={ cliente.dpi }
-                                    onChange={onInputChange}
-                                    variant="outlined"
-                                    fullWidth
-                                    required
-                                    className="w-full"
-                                />
-                                { submitted &&  !cliente.dpi && <small className="p-invalid">DPI es requerido.</small>}
-                            </div>
-                            <div className="field col">
-                                <label htmlFor="quantity">NIT</label>
-                                <TextField
-                                    type="number"
-                                    id="nit"
-                                    name="nit"
-                                    value={ cliente.nit }
-                                    onChange={onInputChange}
-                                    variant="outlined"
-                                    fullWidth
-                                    required
-                                    className="w-full"
-                                />
-                                { submitted &&  !cliente.nit && <small className="p-invalid">Nit es requerido.</small>}
-                            </div>
                         </div>
 
                         <div className="field">
