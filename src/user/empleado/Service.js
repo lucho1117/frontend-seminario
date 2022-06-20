@@ -42,3 +42,8 @@ export async function listSede(obj) {
     let respuesta = await axios.post(URL + `/sede/list`, obj);
 	return respuesta.data;
 }
+
+export async function listPlantas(obj) {
+    let respuesta = await axios.post(URL + `/empleado/plantas`, obj);
+	return respuesta.data;
+}

@@ -67,10 +67,11 @@ import TipoMateriaPrima from './plantas/tipoMateriaPrima/TipoMateriaPrima';
 import TipoMaquinaria from './plantas/tipoMaquinaria/TipoMaquinaria';
 import MateriaPrima from './plantas/materiaPrima/MateriaPrima';
 import Maquinaria from './plantas/maquinaria/Maquinaria';
+import Proceso from './plantas/proceso/Proceso';
 
 import Empleado from './user/empleado/Empleado';
 
-const App = () => {
+const App = (props) => {
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light')
     const [inputStyle, setInputStyle] = useState('outlined');
@@ -226,6 +227,7 @@ const App = () => {
                 {
                     label: 'PLANTAS', icon: 'pi pi-fw pi-th-large',
                     items: [
+                        {label: 'Procesos', icon: 'pi pi-fw pi-box', to: '/proceso'},
                         {label: 'Materias Primas', icon: 'pi pi-fw pi-building', to: '/materiaPrima'},
                         {label: 'Tipo Materia Prima', icon: 'pi pi-fw pi-bookmark', to: '/pi-sitemap'},
                         {label: 'Maquinaria', icon: 'pi pi-fw pi-car', to: '/maquinaria'},
@@ -341,7 +343,7 @@ const App = () => {
             <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
 
             <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-                mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+                mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} setAutenticado={props.setAutenticado}  />
 
             <div className="layout-sidebar" onClick={onSidebarClick}>
                 <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
@@ -376,6 +378,7 @@ const App = () => {
                     <Route path="/tipoMateriaPrima" component={TipoMateriaPrima}/>
                     <Route path="/materiaPrima" component={MateriaPrima}/>
                     <Route path="/maquinaria" component={Maquinaria}/>
+                    <Route path="/proceso" component={Proceso}/>
 
 
                     <Route path="/empleado" component={Empleado}/>
@@ -409,7 +412,7 @@ const App = () => {
             </div>
 
             <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange}  />
 
             <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
                 <div className="layout-mask p-component-overlay"></div>
