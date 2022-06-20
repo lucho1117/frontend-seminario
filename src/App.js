@@ -67,6 +67,7 @@ import TipoMateriaPrima from './plantas/tipoMateriaPrima/TipoMateriaPrima';
 import TipoMaquinaria from './plantas/tipoMaquinaria/TipoMaquinaria';
 import MateriaPrima from './plantas/materiaPrima/MateriaPrima';
 import Maquinaria from './plantas/maquinaria/Maquinaria';
+import Proceso from './plantas/proceso/Proceso';
 
 import Empleado from './user/empleado/Empleado';
 
@@ -226,6 +227,7 @@ const App = (props) => {
                 {
                     label: 'PLANTAS', icon: 'pi pi-fw pi-th-large',
                     items: [
+                        {label: 'Procesos', icon: 'pi pi-fw pi-box', to: '/proceso'},
                         {label: 'Materias Primas', icon: 'pi pi-fw pi-building', to: '/materiaPrima'},
                         {label: 'Tipo Materia Prima', icon: 'pi pi-fw pi-bookmark', to: '/pi-sitemap'},
                         {label: 'Maquinaria', icon: 'pi pi-fw pi-car', to: '/maquinaria'},
@@ -376,6 +378,7 @@ const App = (props) => {
                     <Route path="/tipoMateriaPrima" component={TipoMateriaPrima}/>
                     <Route path="/materiaPrima" component={MateriaPrima}/>
                     <Route path="/maquinaria" component={Maquinaria}/>
+                    <Route path="/proceso" component={Proceso}/>
 
 
                     <Route path="/empleado" component={Empleado}/>
