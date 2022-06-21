@@ -156,6 +156,16 @@ const rightToolbarTemplate = () => {
     )
 }
 
+const leftToolbarTemplate = () => {
+    return (
+        <React.Fragment>
+            <div className="my-2">
+                Cada vehiculo se encuentra monitoreado por GPS-inversiones
+            </div>
+        </React.Fragment>
+    )
+}
+
 const idBodyTemplate = (rowData) => {
     return (
         <>
@@ -258,7 +268,7 @@ return (
         <div className="col-12">
             <div className="card">
                 <Toast ref={toast} />
-                <Toolbar className="mb-4" right={rightToolbarTemplate}></Toolbar>
+                <Toolbar className="mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 
                 <DataTable ref={dt} value={vehiculos}
                     dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
