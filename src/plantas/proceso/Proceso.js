@@ -11,6 +11,8 @@ import { InputText } from 'primereact/inputtext';
 import * as Service from "./Service";
 import {  TextField } from '@mui/material';
 import DetalleProceso from "./detalle/DetalleProceso";
+import ReportProceso from './ReportProceso';
+import { PDFViewer } from '@react-pdf/renderer';
 
 const Proceso = () => {
 
@@ -32,6 +34,9 @@ const Proceso = () => {
     const dt = useRef(null);
 
     const [flagproceso, setFlagProceso] = useState(false);
+
+    const [asignacionReportDialog, setasignacionReportDialog] = useState(false);
+
     useEffect(() => {
         list();
     }, []);
@@ -137,6 +142,7 @@ const Proceso = () => {
         return (
             <React.Fragment>
                 <div className="my-2">
+                 <Button label="REPORTE" icon="pi pi-file-pdf" className="p-button-info mr-2" onClick={()=>{setasignacionReportDialog(true)}} />
                     <Button label="AGREGAR" icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
                 </div>
             </React.Fragment>
@@ -207,6 +213,10 @@ const Proceso = () => {
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-danger mt-2" onClick={() => confirmDeleteproceso(rowData)} />
             </div>
         );
+    }
+
+    const hideDialogReporte = () => {
+        setasignacionReportDialog(false);
     }
 
     const header = (
@@ -356,6 +366,14 @@ const Proceso = () => {
                 />
             ):null
         }
+
+        <Dialog visible={asignacionReportDialog} style={{ width: '1500px' }} modal className="p-fluid"  onHide={hideDialogReporte}>
+            <PDFViewer style={{width:"100%", height: "90vh"}}>
+                <ReportProceso 
+                    procesos={procesos}
+                />
+            </PDFViewer>
+        </Dialog>
 
         </>
     )

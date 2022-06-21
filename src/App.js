@@ -236,7 +236,7 @@ const App = (props) => {
                 },
             ]
         },
-        {
+        /* {
             label: 'UI Components', icon: 'pi pi-fw pi-sitemap',
             items: [
                 { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
@@ -277,7 +277,7 @@ const App = (props) => {
                 { label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline' },
                 { label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
             ]
-        },
+        }, */
         /* {
             label: 'MENU DESPLEGABLE', icon: 'pi pi-fw pi-search',
             items: [
@@ -304,13 +304,13 @@ const App = (props) => {
                 
             ]
         }, */
-        {
+       /*  {
             label: 'Get Started',
             items: [
                 { label: 'Documentation', icon: 'pi pi-fw pi-question', command: () => { window.location = "#/documentation" } },
                 { label: 'View Source', icon: 'pi pi-fw pi-search', command: () => { window.location = "https://github.com/primefaces/sakai-react" } }
             ]
-        }
+        } */
     ];
 
     const addClass = (element, className) => {
