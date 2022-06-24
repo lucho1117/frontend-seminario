@@ -294,8 +294,8 @@ const DetalleProceso = (props) => {
                         <Column field="nombre" header="Nombre" sortable body={materiaPrimaBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
                         <Column field="categoria" header="Categoria" sortable body={maquinariaBodyTemplate} headerStyle={{ width: '15%', minWidth: '10rem' }}></Column>
                         <Column field="descripcion" header="Descripción" body={empleadoBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
-                        <Column field="price" header="Precio" body={fechaInicioBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
-                        <Column field="stock" header="Stock" body={fechaFinBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
+                        <Column field="fechaInicio" header="Fecha Inicio" body={fechaInicioBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
+                        <Column field="fechaFin" header="Fecha Fin" body={fechaFinBodyTemplate} sortable headerStyle={{ width: '15%', minWidth: '8rem' }}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
