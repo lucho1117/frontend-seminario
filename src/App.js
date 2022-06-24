@@ -9,7 +9,7 @@ import { AppMenu } from './AppMenu';
 import { AppConfig } from './AppConfig';
 
 import Dashboard from './components/Dashboard';
-import ButtonDemo from './components/ButtonDemo';
+/* import ButtonDemo from './components/ButtonDemo';
 import ChartDemo from './components/ChartDemo';
 import Documentation from './components/Documentation';
 import FileDemo from './components/FileDemo';
@@ -31,7 +31,7 @@ import IconsDemo from './components/IconsDemo';
 
 import Crud from './pages/Crud';
 import EmptyPage from './pages/EmptyPage';
-import TimelineDemo from './pages/TimelineDemo';
+import TimelineDemo from './pages/TimelineDemo'; */
 
 import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
@@ -229,7 +229,7 @@ const App = (props) => {
                     items: [
                         {label: 'Procesos', icon: 'pi pi-fw pi-box', to: '/proceso'},
                         {label: 'Materias Primas', icon: 'pi pi-fw pi-building', to: '/materiaPrima'},
-                        {label: 'Tipo Materia Prima', icon: 'pi pi-fw pi-bookmark', to: '/pi-sitemap'},
+                        {label: 'Tipo Materia Prima', icon: 'pi pi-fw pi-bookmark', to: '/tipoMateriaPrima'},
                         {label: 'Maquinaria', icon: 'pi pi-fw pi-car', to: '/maquinaria'},
                         {label: 'Tipo Maquinaria', icon: 'pi pi-fw pi-car', to: '/tipoMaquinaria'},
                     ]
@@ -384,7 +384,7 @@ const App = (props) => {
                     <Route path="/empleado" component={Empleado}/>
 
 
-                    <Route path="/formlayout" component={FormLayoutDemo} />
+                  {/*   <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
                     <Route path="/invalidstate" component={InvalidStateDemo} />
@@ -405,7 +405,7 @@ const App = (props) => {
                     <Route path="/timeline" component={TimelineDemo} />
                     <Route path="/crud" component={Crud} />
                     <Route path="/empty" component={EmptyPage} />
-                    <Route path="/documentation" component={Documentation} />
+                    <Route path="/documentation" component={Documentation} /> */}
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />
