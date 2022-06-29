@@ -1,15 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { RadioButton } from 'primereact/radiobutton';
-import { InputSwitch } from 'primereact/inputswitch';
 import classNames from 'classnames';
-import {Button} from "primereact/button";
 
 export const AppConfig = (props) => {
 
     const [active, setActive] = useState(false);
-    const [scale, setScale] = useState(14);
-    const [scales] = useState([12,13,14,15,16]);
-    const [theme, setTheme] = useState('lara-light-indigo');
+    const [scale] = useState(14);
+    const [theme] = useState('lara-light-indigo');
     const config = useRef(null);
     let outsideClickListener = useRef(null);
 
@@ -50,21 +46,12 @@ export const AppConfig = (props) => {
         return !(config.current.isSameNode(event.target) || config.current.contains(event.target));
     }
 
-    const decrementScale = () => {
-        setScale((prevState) => --prevState);
-    }
-
-    const incrementScale = () => {
-        setScale((prevState) => ++prevState);
-    }
 
     useEffect(() => {
         document.documentElement.style.fontSize = scale + 'px';
     }, [scale])
 
-    const toggleConfigurator = (event) => {
-        setActive(prevState => !prevState);
-    }
+ 
 
     const configClassName = classNames('layout-config', {
         'layout-config-active': active
@@ -109,14 +96,10 @@ export const AppConfig = (props) => {
         return /(MSIE|Trident\/|Edge\/)/i.test(window.navigator.userAgent)
     }
 
-    const changeTheme = (e, theme, scheme) => {
-        props.onColorModeChange(scheme);
-        setTheme(theme);
-    }
 
     return (
         <div ref={config} className={configClassName} id={"layout-config"}>
-            <button className="layout-config-button p-link" id="layout-config-button" onClick={toggleConfigurator}>
+            {/* <button className="layout-config-button p-link" id="layout-config-button" onClick={toggleConfigurator}>
                 <i className="pi pi-cog"></i>
             </button>
             <Button className="p-button-danger layout-config-close p-button-rounded p-button-text" icon="pi pi-times" onClick={hideConfigurator}/>
@@ -359,7 +342,7 @@ export const AppConfig = (props) => {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
         </div>
     );
 }
