@@ -177,7 +177,7 @@ const Factura = (props) => {
                             <Button label="Volver" icon="pi pi-arrow-left" className="p-button-text" onClick={back} />
                         </div>
                         <div className="col-12 md:col-4">
-                            <label htmlFor="descripcion">Cliente*</label>
+                            <label htmlFor="descripcion">Nombre del cliente Cliente*</label>
                             <div className="p-inputgroup">
                                 <span className="p-inputgroup-addon"><i className="pi pi-user"></i></span>
                                 <Select 
